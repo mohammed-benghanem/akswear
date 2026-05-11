@@ -1,0 +1,152 @@
+{
+  "site": {
+    "title": "AKS Wear – Maillots de Football Premium | Portez le Jeu",
+    "description": "AKS Wear – Maillots de football premium des meilleurs clubs et équipes nationales. Maillots authentiques livrés à votre porte. Aucun paiement en ligne requis."
+  },
+  "navbar": {
+    "home": "Accueil",
+    "shop": "Boutique",
+    "clubKits": "Maillots de Club",
+    "nationalTeams": "Équipes Nationales",
+    "retroKits": "Maillots Rétro",
+    "allJerseys": "Tous les Maillots",
+    "cart": "Panier",
+    "searchPlaceholder": "Rechercher des maillots, des clubs, des pays...",
+    "search": "Rechercher"
+  },
+  "home": {
+    "promo": {
+      "fastDelivery": "Livraison Rapide",
+      "orderPhone": "Commander par Téléphone — Pas de Paiement en Ligne",
+      "returns": "Retours Faciles sous 30 Jours",
+      "authentic": "Maillots 100% Authentiques"
+    },
+    "hero": {
+      "eyebrow": "Kits de Football Premium",
+      "title1": "Portez le",
+      "title2": "Jeu.",
+      "subtitle": "Maillots authentiques des plus grands clubs et équipes nationales. Confirmé par téléphone — aucun paiement en ligne nécessaire.",
+      "shopNow": "Acheter Maintenant",
+      "newArrivals": "Nouveautés →"
+    },
+    "collections": {
+      "label": "Parcourir les Catégories",
+      "title1": "Acheter par",
+      "title2": "Collection",
+      "club": {
+        "title": "Maillots de Club",
+        "sub": "Les meilleurs clubs européens",
+        "count": "Plus de 200 styles"
+      },
+      "national": {
+        "title": "Équipes Nationales",
+        "sub": "Représentez votre nation",
+        "count": "Plus de 80 pays"
+      },
+      "retro": {
+        "title": "Maillots Rétro",
+        "sub": "Les classiques de l'âge d'or",
+        "count": "Plus de 150 styles vintage"
+      }
+    },
+    "favorites": {
+      "label": "Sélections Triées sur le Volet",
+      "title1": "Favoris des",
+      "title2": "Fans",
+      "viewAll": "Voir Tout →"
+    },
+    "why": {
+      "label": "Notre Promesse",
+      "title1": "Pourquoi Choisir",
+      "title2": "AKS Wear",
+      "fastDispatch": {
+        "title": "Expédition Rapide",
+        "desc": "Expédition le jour même pour les commandes passées avant 14h les jours ouvrables."
+      },
+      "authentic": {
+        "title": "100% Authentique",
+        "desc": "Chaque maillot est sous licence officielle — jamais une réplique."
+      },
+      "phoneConfirm": {
+        "title": "Confirmation Téléphonique",
+        "desc": "Nous vous appelons personnellement pour confirmer votre commande avant l'expédition."
+      },
+      "returns": {
+        "title": "Retours Faciles",
+        "desc": "Vous avez changé d'avis? Pas de problème — retours faciles sous 30 jours."
+      }
+    },
+    "newArrivals": {
+      "label": "Tout Juste Arrivés",
+      "title1": "Nouvelles",
+      "title2": "Arrivées"
+    },
+    "testimonials": {
+      "label": "Avis Clients",
+      "title1": "Ce Que Disent",
+      "title2": "Les Fans",
+      "t1": "La qualité est exceptionnelle. Le kit de l'Argentine de la Coupe du Monde est arrivé en parfait état, exactement comme décrit.",
+      "t2": "Livraison super rapide et un appel pour confirmer ma commande — j'adore la touche personnelle. Je commanderai à nouveau!",
+      "t3": "Meilleur magasin de kits rétro en ligne. J'ai le maillot de l'AC Milan 2003 et il est incroyable. 10/10."
+    }
+  },
+  "product": {
+    "addToCart": "Ajouter au Panier",
+    "outOfStock": "Rupture de Stock",
+    "selectSize": "Sélectionner une taille",
+    "size": "Taille",
+    "details": "Détails du Produit",
+    "shipping": "Infos de livraison",
+    "features": "Caractéristiques",
+    "related": "Vous aimerez aussi",
+    "currency": "DH"
+  },
+  "cart": {
+    "title": "Votre Panier",
+    "empty": "Votre panier est vide.",
+    "continueShopping": "Continuer vos Achats",
+    "summary": "Résumé de la Commande",
+    "subtotal": "Sous-total",
+    "shipping": "Livraison",
+    "freeShipping": "Gratuit",
+    "total": "Total",
+    "checkout": "Procéder au Paiement",
+    "currency": "DH"
+  },
+  "shop": {
+    "title": "Tous les Maillots",
+    "filters": "Filtres",
+    "clearAll": "Tout Effacer",
+    "category": "Catégorie",
+    "price": "Fourchette de Prix",
+    "sort": "Trier Par",
+    "sortPopular": "Le Plus Populaire",
+    "sortLowHigh": "Prix : Croissant",
+    "sortHighLow": "Prix : Décroissant",
+    "results": "produits trouvés",
+    "noResults": "Aucun produit ne correspond à vos filtres."
+  },
+  "checkout": {
+    "title": "Caisse",
+    "subtitle": "Complétez votre commande",
+    "personal": "Détails Personnels",
+    "shipping": "Adresse de Livraison",
+    "name": "Nom Complet",
+    "phone": "Numéro de Téléphone",
+    "address": "Adresse Complète",
+    "city": "Ville",
+    "postal": "Code Postal",
+    "confirm": "Confirmer la Commande",
+    "paymentNote": "Nous vous appellerons pour confirmer votre commande et organiser le paiement à la livraison."
+  },
+  "footer": {
+    "about": "Votre destination premium pour des kits de football authentiques, des classiques rétro et des maillots de l'équipe nationale.",
+    "quickLinks": "Liens Rapides",
+    "contact": "Nous Contacter",
+    "newsletter": "Newsletter",
+    "newsletterText": "Abonnez-vous pour recevoir des mises à jour, accéder à des offres exclusives et plus encore.",
+    "emailPlaceholder": "Entrez votre adresse email",
+    "subscribe": "S'abonner",
+    "rights": "Tous droits réservés."
+  }
+}

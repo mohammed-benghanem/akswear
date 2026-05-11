@@ -1,0 +1,152 @@
+{
+  "site": {
+    "title": "AKS Wear – Premium Football Jerseys | Wear the Game",
+    "description": "AKS Wear – Premium football jerseys from top clubs and national teams. Authentic kits delivered to your door. No online payment required."
+  },
+  "navbar": {
+    "home": "Home",
+    "shop": "Shop",
+    "clubKits": "Club Kits",
+    "nationalTeams": "National Teams",
+    "retroKits": "Retro Kits",
+    "allJerseys": "All Jerseys",
+    "cart": "Cart",
+    "searchPlaceholder": "Search jerseys, clubs, countries...",
+    "search": "Search"
+  },
+  "home": {
+    "promo": {
+      "fastDelivery": "Fast Delivery",
+      "orderPhone": "Order by Phone — No Online Payment",
+      "returns": "30-Day Easy Returns",
+      "authentic": "100% Authentic Jerseys"
+    },
+    "hero": {
+      "eyebrow": "Premium Football Kits",
+      "title1": "Wear the",
+      "title2": "Game.",
+      "subtitle": "Authentic jerseys from the world's greatest clubs and national teams. Confirmed by phone — no online payment needed.",
+      "shopNow": "Shop Now",
+      "newArrivals": "New Arrivals →"
+    },
+    "collections": {
+      "label": "Browse Categories",
+      "title1": "Shop by",
+      "title2": "Collection",
+      "club": {
+        "title": "Club Jerseys",
+        "sub": "Top European clubs",
+        "count": "200+ styles"
+      },
+      "national": {
+        "title": "National Teams",
+        "sub": "Represent your nation",
+        "count": "80+ countries"
+      },
+      "retro": {
+        "title": "Retro Kits",
+        "sub": "Golden era classics",
+        "count": "150+ vintage styles"
+      }
+    },
+    "favorites": {
+      "label": "Hand-Picked Selections",
+      "title1": "Fan",
+      "title2": "Favourites",
+      "viewAll": "View All →"
+    },
+    "why": {
+      "label": "Our Promise",
+      "title1": "Why Choose",
+      "title2": "AKS Wear",
+      "fastDispatch": {
+        "title": "Fast Dispatch",
+        "desc": "Same-day dispatch on orders placed before 2pm on business days."
+      },
+      "authentic": {
+        "title": "100% Authentic",
+        "desc": "Every jersey is officially licensed — never a replica."
+      },
+      "phoneConfirm": {
+        "title": "Phone Confirmation",
+        "desc": "We call you personally to confirm your order before shipping."
+      },
+      "returns": {
+        "title": "Easy Returns",
+        "desc": "Changed your mind? No problem — 30-day hassle-free returns."
+      }
+    },
+    "newArrivals": {
+      "label": "Just Dropped",
+      "title1": "New",
+      "title2": "Arrivals"
+    },
+    "testimonials": {
+      "label": "Customer Reviews",
+      "title1": "What Fans",
+      "title2": "Say",
+      "t1": "The quality is outstanding. The Argentina World Cup kit arrived in perfect condition, exactly as described.",
+      "t2": "Super fast delivery and a phone call to confirm my order — love the personal touch. Will order again!",
+      "t3": "Best retro kit store online. Got the AC Milan 2003 jersey and it looks incredible. 10/10."
+    }
+  },
+  "product": {
+    "addToCart": "Add to Cart",
+    "outOfStock": "Out of Stock",
+    "selectSize": "Select a size",
+    "size": "Size",
+    "details": "Product Details",
+    "shipping": "Shipping info",
+    "features": "Features",
+    "related": "You might also like",
+    "currency": "DH"
+  },
+  "cart": {
+    "title": "Your Cart",
+    "empty": "Your cart is empty.",
+    "continueShopping": "Continue Shopping",
+    "summary": "Order Summary",
+    "subtotal": "Subtotal",
+    "shipping": "Shipping",
+    "freeShipping": "Free",
+    "total": "Total",
+    "checkout": "Proceed to Checkout",
+    "currency": "DH"
+  },
+  "shop": {
+    "title": "All Jerseys",
+    "filters": "Filters",
+    "clearAll": "Clear All",
+    "category": "Category",
+    "price": "Price Range",
+    "sort": "Sort By",
+    "sortPopular": "Most Popular",
+    "sortLowHigh": "Price: Low to High",
+    "sortHighLow": "Price: High to Low",
+    "results": "products found",
+    "noResults": "No products match your filters."
+  },
+  "checkout": {
+    "title": "Checkout",
+    "subtitle": "Complete your order",
+    "personal": "Personal Details",
+    "shipping": "Shipping Address",
+    "name": "Full Name",
+    "phone": "Phone Number",
+    "address": "Street Address",
+    "city": "City",
+    "postal": "Postal Code",
+    "confirm": "Confirm Order",
+    "paymentNote": "We will call you to confirm your order and arrange payment upon delivery."
+  },
+  "footer": {
+    "about": "Your premium destination for authentic football kits, retro classics, and national team jerseys.",
+    "quickLinks": "Quick Links",
+    "contact": "Contact Us",
+    "newsletter": "Newsletter",
+    "newsletterText": "Subscribe to receive updates, access to exclusive deals, and more.",
+    "emailPlaceholder": "Enter your email address",
+    "subscribe": "Subscribe",
+    "rights": "All rights reserved."
+  }
+}

@@ -1,0 +1,233 @@
+/* ── Admin Orders ───────────────────────────────────────────── */
+.ado-root { max-width: 1100px; animation: fadeInUp 0.5s ease both; }
+
+/* Header */
+.ado-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 24px; }
+.ado-title { font-size: 1.75rem; font-weight: 800; color: #fff; letter-spacing: -0.5px; margin-bottom: 4px; }
+.ado-subtitle { font-size: 0.88rem; color: rgba(255,255,255,0.45); }
+
+/* Filters */
+.ado-filters { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+.ado-search-wrap { position: relative; flex: 1; min-width: 200px; }
+.ado-search-icon {
+  position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+  color: rgba(255,255,255,0.3); pointer-events: none;
+}
+.ado-search {
+  width: 100%; padding: 10px 12px 10px 38px;
+  background: var(--adm-surface); border: 1px solid var(--adm-border);
+  border-radius: 10px; color: #fff; font-size: 0.88rem; font-family: inherit;
+  outline: none; transition: border-color 0.2s;
+}
+.ado-search::placeholder { color: rgba(255,255,255,0.25); }
+.ado-search:focus { border-color: var(--adm-gold); }
+
+.ado-status-tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.ado-status-tab {
+  padding: 8px 14px; border-radius: 8px;
+  font-size: 0.8rem; font-weight: 600; font-family: inherit;
+  color: rgba(255,255,255,0.4); background: var(--adm-surface);
+  border: 1px solid var(--adm-border); cursor: pointer; transition: all 0.18s;
+  text-transform: capitalize;
+}
+.ado-status-tab:hover { color: rgba(255,255,255,0.7); }
+.ado-status-tab.active { background: var(--adm-active-bg); }
+
+/* Empty */
+.ado-empty-card {
+  background: var(--adm-surface); border: 1px solid var(--adm-border);
+  border-radius: 14px; padding: 60px 40px; text-align: center;
+}
+.ado-empty-icon { font-size: 3rem; margin-bottom: 16px; }
+.ado-empty-card h3 { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
+.ado-empty-card p { font-size: 0.85rem; color: rgba(255,255,255,0.35); }
+
+/* Order list */
+.ado-list { display: flex; flex-direction: column; gap: 8px; }
+
+.ado-row-card {
+  background: var(--adm-surface); border: 1px solid var(--adm-border);
+  border-radius: 12px; overflow: hidden; transition: border-color 0.2s;
+}
+.ado-row-card:hover { border-color: rgba(255,255,255,0.12); }
+.ado-row-card.expanded { border-color: rgba(212,168,67,0.25); }
+
+/* Row */
+.ado-row {
+  display: grid;
+  grid-template-columns: 1.6fr 2fr 80px 110px 150px 80px;
+  align-items: center;
+  padding: 14px 20px;
+  cursor: pointer;
+  gap: 12px;
+}
+.ado-row:hover { background: rgba(255,255,255,0.02); }
+
+.ado-cell { display: flex; align-items: center; gap: 10px; }
+
+.ado-id-cell { flex-direction: column; align-items: flex-start; gap: 3px; }
+.ado-id { font-family: monospace; font-size: 0.82rem; color: var(--adm-gold); font-weight: 700; }
+.ado-date { font-size: 0.75rem; color: rgba(255,255,255,0.3); }
+
+.ado-customer-cell {}
+.ado-avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: linear-gradient(135deg, #1e3a5f, #2c5282);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.8rem; font-weight: 700; color: #93c5fd; flex-shrink: 0;
+}
+.ado-cname { font-size: 0.85rem; font-weight: 600; color: #fff; }
+.ado-cphone { font-size: 0.75rem; color: rgba(255,255,255,0.35); }
+
+.ado-items-count { font-size: 0.82rem; color: rgba(255,255,255,0.5); }
+.ado-total { font-size: 0.9rem; font-weight: 700; color: #fff; }
+
+/* Status select */
+.ado-status-select {
+  padding: 6px 10px; border-radius: 8px;
+  font-size: 0.78rem; font-weight: 700; font-family: inherit;
+  cursor: pointer; border: 1px solid; outline: none;
+  transition: all 0.2s; width: 100%;
+}
+
+.ado-expand-cell { justify-content: flex-end; gap: 14px; }
+.ado-actions { display: flex; gap: 8px; align-items: center; }
+.ado-action-btn {
+  background: transparent; border: none; cursor: pointer;
+  padding: 6px; border-radius: 6px; display: flex; align-items: center; justify-content: center;
+  color: rgba(255,255,255,0.3); transition: all 0.2s;
+}
+.ado-action-btn:hover { background: rgba(255,255,255,0.08); }
+.ado-action-btn.edit:hover { color: #60a5fa; background: rgba(96,165,250,0.15); }
+.ado-action-btn.del:hover { color: #f87171; background: rgba(248,113,113,0.15); }
+
+.ado-chevron { display: flex; color: rgba(255,255,255,0.3); transition: transform 0.2s; }
+.ado-chevron.up { transform: rotate(180deg); }
+
+/* Expanded */
+.ado-expanded {
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding: 20px 24px;
+  display: flex; flex-direction: column; gap: 16px;
+  background: rgba(255,255,255,0.015);
+  animation: ado-expand 0.2s ease both;
+}
+@keyframes ado-expand { from { opacity: 0; transform: translateY(-8px); } to { opacity: 1; transform: translateY(0); } }
+
+.ado-exp-section {}
+.ado-exp-title { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: rgba(255,255,255,0.3); margin-bottom: 10px; }
+
+.ado-items-grid { display: flex; flex-direction: column; gap: 8px; }
+.ado-item {
+  display: flex; align-items: center; gap: 12px;
+  background: rgba(255,255,255,0.04); border-radius: 10px; padding: 10px 14px;
+}
+.ado-item-img {
+  width: 40px; height: 40px; border-radius: 8px; object-fit: cover;
+  background: rgba(255,255,255,0.06); flex-shrink: 0;
+}
+.ado-item-info { flex: 1; }
+.ado-item-name { display: block; font-size: 0.85rem; font-weight: 600; color: #fff; }
+.ado-item-meta { display: block; font-size: 0.75rem; color: rgba(255,255,255,0.35); }
+.ado-item-price { font-weight: 700; color: var(--adm-gold); font-size: 0.88rem; }
+
+.ado-exp-addr { font-size: 0.85rem; color: rgba(255,255,255,0.6); }
+.ado-exp-note { font-size: 0.85rem; color: rgba(255,255,255,0.5); font-style: italic; }
+
+.ado-exp-totals {
+  display: flex; gap: 24px; flex-wrap: wrap;
+  padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.06);
+  font-size: 0.83rem; color: rgba(255,255,255,0.45);
+}
+.ado-exp-totals strong { color: rgba(255,255,255,0.8); }
+.ado-exp-total-final { color: var(--adm-gold); }
+.ado-exp-total-final strong { color: var(--adm-gold); }
+
+/* Toast */
+.ado-toast {
+  position: fixed; bottom: 28px; right: 28px; z-index: 9999;
+  background: #1a2535; border: 1px solid rgba(96,165,250,0.3);
+  color: #60a5fa; padding: 12px 22px; border-radius: 10px;
+  font-size: 0.88rem; font-weight: 600; font-family: inherit;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4); animation: slideUp 0.25s ease both;
+}
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+/* Modals */
+.ado-overlay {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center; z-index: 9999;
+  animation: fadeIn 0.2s ease;
+}
+.ado-modal {
+  background: var(--adm-surface); border: 1px solid var(--adm-border);
+  border-radius: 16px; width: 100%; max-width: 500px; max-height: 90vh;
+  display: flex; flex-direction: column; box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  animation: slideUp 0.3s ease;
+}
+.ado-modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 24px; border-bottom: 1px solid var(--adm-border);
+}
+.ado-modal-title { font-size: 1.1rem; font-weight: 700; color: #fff; }
+.ado-modal-close {
+  background: transparent; border: none; color: rgba(255,255,255,0.4);
+  font-size: 1.2rem; cursor: pointer; transition: color 0.2s;
+}
+.ado-modal-close:hover { color: #fff; }
+.ado-modal-body { padding: 24px; overflow-y: auto; }
+.ado-form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.ado-field { display: flex; flex-direction: column; gap: 6px; }
+.ado-field-full { grid-column: 1 / -1; }
+.ado-field label { font-size: 0.8rem; font-weight: 600; color: rgba(255,255,255,0.5); }
+.ado-field input, .ado-field textarea {
+  background: rgba(0,0,0,0.2); border: 1px solid var(--adm-border);
+  border-radius: 8px; padding: 10px 12px; color: #fff; font-size: 0.9rem;
+  font-family: inherit; outline: none; transition: border-color 0.2s; resize: vertical;
+}
+.ado-field input:focus, .ado-field textarea:focus { border-color: var(--adm-gold); }
+.ado-modal-footer {
+  padding: 20px 24px; border-top: 1px solid var(--adm-border);
+  display: flex; justify-content: flex-end; gap: 12px;
+}
+.ado-cancel-btn {
+  background: transparent; border: 1px solid var(--adm-border); color: #fff;
+  padding: 10px 16px; border-radius: 8px; font-weight: 600; cursor: pointer;
+  transition: background 0.2s;
+}
+.ado-cancel-btn:hover { background: rgba(255,255,255,0.05); }
+.ado-save-btn {
+  background: var(--adm-gold); border: none; color: #0f1623;
+  padding: 10px 20px; border-radius: 8px; font-weight: 700; cursor: pointer;
+  transition: opacity 0.2s;
+}
+.ado-save-btn:hover { opacity: 0.9; }
+.ado-save-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Confirm Modal */
+.ado-confirm-modal {
+  background: var(--adm-surface); border: 1px solid var(--adm-border);
+  border-radius: 16px; width: 100%; max-width: 400px; padding: 32px 24px;
+  text-align: center; display: flex; flex-direction: column; align-items: center;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5); animation: scaleUp 0.2s ease;
+}
+.ado-confirm-icon { font-size: 3rem; margin-bottom: 16px; }
+.ado-confirm-modal h3 { font-size: 1.2rem; color: #fff; margin-bottom: 8px; }
+.ado-confirm-modal p { font-size: 0.88rem; color: rgba(255,255,255,0.5); margin-bottom: 24px; }
+.ado-confirm-actions { display: flex; gap: 12px; width: 100%; }
+.ado-confirm-actions button { flex: 1; }
+.ado-delete-confirm-btn {
+  background: #f87171; border: none; color: #fff; font-weight: 700;
+  padding: 10px; border-radius: 8px; cursor: pointer; transition: background 0.2s;
+}
+.ado-delete-confirm-btn:hover { background: #dc2626; }
+
+@keyframes scaleUp { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .ado-row { grid-template-columns: 1fr 1fr 100px 80px; }
+  .ado-items-count, .ado-total { display: none; }
+  .ado-form-grid { grid-template-columns: 1fr; }
+}

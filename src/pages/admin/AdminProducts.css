@@ -1,0 +1,259 @@
+/* ── Admin Products ─────────────────────────────────────────── */
+.adp-root { max-width: 1200px; animation: fadeInUp 0.5s ease both; }
+
+/* Header */
+.adp-header {
+  display: flex; align-items: flex-start;
+  justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  margin-bottom: 24px;
+}
+.adp-title { font-size: 1.75rem; font-weight: 800; color: #fff; letter-spacing: -0.5px; margin-bottom: 4px; }
+.adp-subtitle { font-size: 0.88rem; color: rgba(255,255,255,0.45); }
+.adp-add-btn {
+  display: flex; align-items: center; gap: 8px;
+  padding: 11px 20px;
+  background: linear-gradient(135deg, #b8892a, #d4a843);
+  color: #fff; font-size: 0.88rem; font-weight: 700;
+  border: none; border-radius: 10px; cursor: pointer;
+  box-shadow: 0 4px 16px rgba(184,137,42,0.3);
+  transition: all 0.2s; font-family: inherit;
+}
+.adp-add-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(184,137,42,0.45); }
+
+/* Filters */
+.adp-filters {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.adp-search-wrap { position: relative; flex: 1; min-width: 200px; }
+.adp-search-icon {
+  position: absolute; left: 12px; top: 50%; transform: translateY(-50%);
+  color: rgba(255,255,255,0.3); pointer-events: none;
+}
+.adp-search {
+  width: 100%; padding: 10px 12px 10px 38px;
+  background: var(--adm-surface); border: 1px solid var(--adm-border);
+  border-radius: 10px; color: #fff; font-size: 0.88rem; font-family: inherit;
+  outline: none; transition: border-color 0.2s;
+}
+.adp-search::placeholder { color: rgba(255,255,255,0.25); }
+.adp-search:focus { border-color: var(--adm-gold); }
+
+.adp-cat-tabs { display: flex; gap: 6px; }
+.adp-cat-tab {
+  padding: 8px 16px; border-radius: 8px;
+  font-size: 0.8rem; font-weight: 600; font-family: inherit;
+  color: rgba(255,255,255,0.4); background: var(--adm-surface);
+  border: 1px solid var(--adm-border); cursor: pointer; transition: all 0.2s;
+}
+.adp-cat-tab:hover { color: rgba(255,255,255,0.7); border-color: rgba(255,255,255,0.15); }
+.adp-cat-tab.active { background: var(--adm-active-bg); color: var(--adm-gold); border-color: rgba(212,168,67,0.3); }
+
+/* Table */
+.adp-table-card {
+  background: var(--adm-surface); border: 1px solid var(--adm-border);
+  border-radius: 14px; overflow: hidden;
+}
+.adp-table-wrap { overflow-x: auto; }
+.adp-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.adp-table th {
+  text-align: left; padding: 12px 16px;
+  color: rgba(255,255,255,0.35); font-size: 0.72rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.5px;
+  border-bottom: 1px solid var(--adm-border); background: rgba(255,255,255,0.02);
+}
+.adp-table td {
+  padding: 12px 16px; color: var(--adm-text);
+  border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: middle;
+}
+.adp-table tr:last-child td { border-bottom: none; }
+.adp-table tr:hover td { background: rgba(255,255,255,0.02); }
+
+.adp-product-cell { display: flex; align-items: center; gap: 12px; }
+.adp-thumb-wrap {
+  width: 44px; height: 44px; border-radius: 8px; overflow: hidden;
+  background: rgba(255,255,255,0.06); flex-shrink: 0;
+}
+.adp-thumb { width: 100%; height: 100%; object-fit: cover; }
+.adp-prod-name { font-size: 0.85rem; font-weight: 600; color: #fff; }
+.adp-prod-sub { font-size: 0.75rem; color: rgba(255,255,255,0.35); }
+
+.adp-cat-badge {
+  display: inline-block; padding: 3px 10px; border-radius: 20px;
+  font-size: 0.7rem; font-weight: 700; text-transform: capitalize;
+}
+.adp-cat-club     { background: rgba(96,165,250,0.12); color: #60a5fa; }
+.adp-cat-national { background: rgba(74,222,128,0.12); color: #4ade80; }
+.adp-cat-retro    { background: rgba(212,168,67,0.12); color: #d4a843; }
+
+.adp-price-cell { display: flex; flex-direction: column; }
+.adp-price { font-weight: 700; color: #fff; }
+.adp-original { font-size: 0.75rem; color: rgba(255,255,255,0.3); text-decoration: line-through; }
+
+.adp-stock { font-weight: 600; color: #4ade80; }
+.adp-stock-low { color: #f87171; }
+
+.adp-badge-pill {
+  display: inline-block; padding: 3px 10px; border-radius: 20px;
+  background: rgba(212,168,67,0.12); color: #d4a843;
+  font-size: 0.7rem; font-weight: 700;
+}
+.adp-no-badge { color: rgba(255,255,255,0.2); }
+
+.adp-rating { color: #d4a843; font-weight: 700; font-size: 0.82rem; }
+.adp-reviews { color: rgba(255,255,255,0.3); font-size: 0.75rem; }
+
+.adp-actions { display: flex; gap: 6px; }
+.adp-edit-btn, .adp-del-btn {
+  display: flex; align-items: center; gap: 5px;
+  padding: 6px 12px; border-radius: 8px;
+  font-size: 0.78rem; font-weight: 600; font-family: inherit; cursor: pointer;
+  border: 1px solid; transition: all 0.18s;
+}
+.adp-edit-btn {
+  background: rgba(96,165,250,0.08); color: #60a5fa;
+  border-color: rgba(96,165,250,0.2);
+}
+.adp-edit-btn:hover { background: rgba(96,165,250,0.18); }
+.adp-del-btn {
+  background: rgba(248,113,113,0.08); color: #f87171;
+  border-color: rgba(248,113,113,0.2);
+}
+.adp-del-btn:hover { background: rgba(248,113,113,0.18); }
+
+/* Modal Overlay */
+.adp-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.7); backdrop-filter: blur(4px);
+  z-index: 999; display: flex; align-items: center; justify-content: center;
+  padding: 24px; animation: fadeIn 0.2s ease;
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Product Modal */
+.adp-modal {
+  background: #0f1623; border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 18px; width: 100%; max-width: 680px;
+  max-height: 90vh; display: flex; flex-direction: column;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+  animation: slideUp 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.adp-modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 24px 28px; border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.adp-modal-title { font-size: 1.15rem; font-weight: 700; color: #fff; }
+.adp-modal-close {
+  background: rgba(255,255,255,0.07); border: none;
+  width: 30px; height: 30px; border-radius: 8px;
+  color: rgba(255,255,255,0.5); font-size: 0.85rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; font-family: inherit;
+  transition: all 0.2s;
+}
+.adp-modal-close:hover { background: rgba(255,255,255,0.12); color: #fff; }
+
+.adp-modal-body { padding: 24px 28px; overflow-y: auto; flex: 1; }
+.adp-form-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+}
+.adp-field { display: flex; flex-direction: column; gap: 6px; }
+.adp-field-full { grid-column: 1 / -1; }
+.adp-field label { font-size: 0.78rem; font-weight: 600; color: rgba(255,255,255,0.5); text-transform: uppercase; letter-spacing: 0.4px; }
+.adp-field input,
+.adp-field select,
+.adp-field textarea {
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 9px; padding: 11px 14px; color: #fff;
+  font-size: 0.88rem; font-family: inherit; outline: none; transition: border-color 0.2s;
+}
+.adp-field input::placeholder, .adp-field textarea::placeholder { color: rgba(255,255,255,0.2); }
+.adp-field input:focus, .adp-field select:focus, .adp-field textarea:focus {
+  border-color: var(--adm-gold); background: rgba(255,255,255,0.08);
+}
+.adp-field select option { background: #0f1623; }
+.adp-field textarea { resize: vertical; }
+
+.adp-modal-footer {
+  display: flex; align-items: center; justify-content: flex-end; gap: 10px;
+  padding: 20px 28px; border-top: 1px solid rgba(255,255,255,0.07);
+}
+.adp-cancel-btn {
+  padding: 10px 20px; border-radius: 9px; border: 1px solid rgba(255,255,255,0.12);
+  background: none; color: rgba(255,255,255,0.6); font-size: 0.88rem;
+  font-weight: 600; cursor: pointer; font-family: inherit; transition: all 0.2s;
+}
+.adp-cancel-btn:hover { background: rgba(255,255,255,0.06); color: #fff; }
+.adp-save-btn {
+  display: flex; align-items: center; gap: 8px;
+  padding: 10px 22px; border-radius: 9px;
+  background: linear-gradient(135deg, #b8892a, #d4a843);
+  color: #fff; font-size: 0.88rem; font-weight: 700; border: none;
+  cursor: pointer; font-family: inherit; transition: all 0.2s;
+  box-shadow: 0 4px 14px rgba(184,137,42,0.3);
+}
+.adp-save-btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(184,137,42,0.45); }
+.adp-save-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+.adp-spinner {
+  display: inline-block; width: 13px; height: 13px;
+  border: 2px solid rgba(255,255,255,0.3); border-top-color: #fff;
+  border-radius: 50%; animation: adp-spin 0.7s linear infinite;
+}
+@keyframes adp-spin { to { transform: rotate(360deg); } }
+
+/* Confirm modal */
+.adp-confirm-modal {
+  background: #0f1623; border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 18px; padding: 40px 36px; max-width: 400px; width: 100%;
+  text-align: center; box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+  animation: slideUp 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+.adp-confirm-icon { font-size: 2.5rem; margin-bottom: 16px; }
+.adp-confirm-modal h3 { font-size: 1.2rem; font-weight: 700; color: #fff; margin-bottom: 10px; }
+.adp-confirm-modal p { font-size: 0.88rem; color: rgba(255,255,255,0.5); margin-bottom: 28px; }
+.adp-confirm-modal strong { color: rgba(255,255,255,0.8); }
+.adp-confirm-actions { display: flex; gap: 10px; justify-content: center; }
+.adp-delete-confirm-btn {
+  padding: 10px 22px; border-radius: 9px;
+  background: rgba(248,113,113,0.15); color: #f87171;
+  border: 1px solid rgba(248,113,113,0.3); font-size: 0.88rem;
+  font-weight: 700; cursor: pointer; font-family: inherit; transition: all 0.2s;
+}
+.adp-delete-confirm-btn:hover { background: rgba(248,113,113,0.28); }
+
+/* Toast */
+.adp-toast {
+  position: fixed; bottom: 28px; right: 28px; z-index: 9999;
+  background: #1a2535; border: 1px solid rgba(74,222,128,0.3);
+  color: #4ade80; padding: 12px 22px; border-radius: 10px;
+  font-size: 0.88rem; font-weight: 600; font-family: inherit;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+  animation: slideUp 0.25s ease both;
+}
+
+/* Image Upload */
+.adp-image-upload-wrap {
+  margin-bottom: 8px;
+}
+.adp-upload-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 8px 16px; border-radius: 8px;
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+  color: #fff; font-size: 0.82rem; font-weight: 600; font-family: inherit;
+  cursor: pointer; transition: all 0.2s;
+}
+.adp-upload-btn:hover:not(.disabled) {
+  background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.25);
+}
+.adp-upload-btn.disabled {
+  opacity: 0.6; cursor: not-allowed;
+}
+.adp-images-textarea {
+  min-height: 80px;
+}
+.adp-field-hint {
+  color: rgba(255,255,255,0.3); font-size: 0.75rem; margin-top: 4px;
+}

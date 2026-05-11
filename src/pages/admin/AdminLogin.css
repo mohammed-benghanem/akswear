@@ -1,0 +1,220 @@
+/* ── Admin Login ────────────────────────────────────────────── */
+.al-root {
+  min-height: 100vh;
+  background: #080c14;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+/* Animated background orbs */
+.al-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.25;
+  animation: al-float 8s ease-in-out infinite;
+  pointer-events: none;
+}
+.al-orb-1 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, #b8892a, transparent);
+  top: -120px; left: -120px;
+  animation-delay: 0s;
+}
+.al-orb-2 {
+  width: 350px; height: 350px;
+  background: radial-gradient(circle, #1e3a5f, transparent);
+  bottom: -100px; right: -80px;
+  animation-delay: -3s;
+}
+.al-orb-3 {
+  width: 250px; height: 250px;
+  background: radial-gradient(circle, #d4a843, transparent);
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  animation-delay: -6s;
+  opacity: 0.1;
+}
+@keyframes al-float {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50%       { transform: translateY(-20px) scale(1.05); }
+}
+
+/* Card */
+.al-card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 420px;
+  background: rgba(255,255,255,0.04);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 20px;
+  padding: 48px 40px;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08);
+  animation: al-card-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+@keyframes al-card-in {
+  from { opacity: 0; transform: translateY(32px) scale(0.95); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Logo */
+.al-logo-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+.al-logo-icon {
+  width: 44px; height: 44px;
+  background: linear-gradient(135deg, #b8892a, #d4a843);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(184,137,42,0.4);
+}
+.al-logo-text {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.3px;
+}
+
+/* Headings */
+.al-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 6px;
+  letter-spacing: -0.5px;
+}
+.al-subtitle {
+  font-size: 0.88rem;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 32px;
+}
+
+/* Form */
+.al-form { display: flex; flex-direction: column; gap: 20px; }
+
+.al-field-wrap { display: flex; flex-direction: column; gap: 7px; }
+
+.al-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.6);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.al-input-wrap {
+  position: relative;
+}
+.al-input-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: rgba(255,255,255,0.35);
+  pointer-events: none;
+}
+.al-input {
+  width: 100%;
+  padding: 13px 44px 13px 40px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 10px;
+  color: #fff;
+  font-size: 0.92rem;
+  font-family: inherit;
+  transition: all 0.2s;
+  outline: none;
+}
+.al-input::placeholder { color: rgba(255,255,255,0.25); }
+.al-input:focus {
+  border-color: #b8892a;
+  background: rgba(255,255,255,0.09);
+  box-shadow: 0 0 0 3px rgba(184,137,42,0.18);
+}
+.al-input.al-input-error {
+  border-color: #e55353;
+  box-shadow: 0 0 0 3px rgba(229,83,83,0.15);
+}
+.al-eye-btn {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(255,255,255,0.35);
+  padding: 4px;
+  transition: color 0.2s;
+}
+.al-eye-btn:hover { color: rgba(255,255,255,0.7); }
+
+.al-error {
+  font-size: 0.78rem;
+  color: #f87171;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.al-error::before { content: "✗ "; }
+
+/* Submit */
+.al-submit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 24px;
+  background: linear-gradient(135deg, #b8892a, #d4a843);
+  color: #fff;
+  font-size: 0.92rem;
+  font-weight: 700;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: all 0.25s;
+  box-shadow: 0 4px 20px rgba(184,137,42,0.35);
+}
+.al-submit-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(184,137,42,0.5);
+}
+.al-submit-btn:disabled { opacity: 0.65; cursor: not-allowed; transform: none; }
+.al-submit-btn.loading { pointer-events: none; }
+
+.al-spinner {
+  display: inline-block;
+  width: 14px; height: 14px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: al-spin 0.7s linear infinite;
+}
+@keyframes al-spin { to { transform: rotate(360deg); } }
+
+/* Hint */
+.al-hint {
+  margin-top: 20px;
+  text-align: center;
+  font-size: 0.78rem;
+  color: rgba(255,255,255,0.3);
+}
+.al-hint code {
+  background: rgba(255,255,255,0.08);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  color: rgba(255,255,255,0.55);
+}
