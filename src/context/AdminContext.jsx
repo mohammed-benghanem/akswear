@@ -19,8 +19,8 @@ const AdminContext = createContext(null);
 
 const DEFAULT_SETTINGS = {
   store_name: "AKS Wear",
-  contact_email: "support@akswear.com",
-  whatsapp: "+1234567890",
+  contact_email: "akswear1@gmail.com",
+  whatsapp: "0675777859",
   free_shipping_threshold: 0,
   shipping_cost: 0,
 };

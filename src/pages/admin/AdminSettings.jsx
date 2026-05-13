@@ -99,11 +99,11 @@ export default function AdminSettings() {
           </div>
           <div className="ads-field">
             <label>Contact Email</label>
-            <input type="email" value={form.contactEmail} onChange={handleChange("contactEmail")} placeholder="support@akswear.com" />
+            <input type="email" value={form.contactEmail} onChange={handleChange("contactEmail")} placeholder="akswear1@gmail.com" />
           </div>
           <div className="ads-field ads-field-full">
             <label>WhatsApp Number</label>
-            <input value={form.whatsapp} onChange={handleChange("whatsapp")} placeholder="+1234567890" />
+            <input value={form.whatsapp} onChange={handleChange("whatsapp")} placeholder="0675777859" />
           </div>
         </div>
       </div>

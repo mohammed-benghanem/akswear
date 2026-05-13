@@ -75,7 +75,7 @@ const CardSkeleton = () => (
 export default function Home() {
   const { t } = useTranslation();
   const { products, loading } = useProducts();
-  const featured    = products.filter((p) => p.badge === "Best Seller" || p.badge === "Limited" || p.rating >= 4.8).slice(0, 4);
+  const featured = products.filter((p) => p.badge === "Best Seller" || p.badge === "Limited" || p.rating >= 4.8).slice(0, 4);
   const newArrivals = products.filter((p) => p.badge === "New").slice(0, 4);
 
   const translatedCollections = [
@@ -226,7 +226,7 @@ export default function Home() {
             <Link to="/shop" className="btn btn-outline see-all-btn">{t('home.favorites.viewAll')}</Link>
           </div>
           <div className="products-grid">
-            {loading ? Array.from({length:4}).map((_,i)=><CardSkeleton key={i}/>) : featured.map((p) => <ProductCard key={p.id} product={p} />)}
+            {loading ? Array.from({ length: 4 }).map((_, i) => <CardSkeleton key={i} />) : featured.map((p) => <ProductCard key={p.id} product={p} />)}
           </div>
         </div>
       </section>
@@ -263,7 +263,7 @@ export default function Home() {
             <Link to="/shop?badge=New" className="btn btn-outline see-all-btn">{t('home.favorites.viewAll')}</Link>
           </div>
           <div className="products-grid">
-            {loading ? Array.from({length:4}).map((_,i)=><CardSkeleton key={i}/>) : newArrivals.map((p) => <ProductCard key={p.id} product={p} />)}
+            {loading ? Array.from({ length: 4 }).map((_, i) => <CardSkeleton key={i} />) : newArrivals.map((p) => <ProductCard key={p.id} product={p} />)}
           </div>
         </div>
       </section>
@@ -296,7 +296,7 @@ export default function Home() {
 
       {/* ── WHATSAPP FLOAT ── */}
       <a
-        href="https://wa.me/1234567890?text=Hi!%20I%27m%20interested%20in%20a%20jersey."
+        href="https://wa.me/212675777859?text=Hi!%20I%27m%20interested%20in%20a%20jersey."
         target="_blank"
         rel="noreferrer"
         className="whatsapp-float"

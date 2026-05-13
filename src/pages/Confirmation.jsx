@@ -59,12 +59,12 @@ export default function Confirmation() {
           <div className="confirm-info-box">
             <p>
               <strong>Need help?</strong> WhatsApp us at{" "}
-              <a href="https://wa.me/1234567890" target="_blank" rel="noreferrer" className="confirm-link">
-                +1 234 567 890
+              <a href="https://wa.me/212675777859" target="_blank" rel="noreferrer" className="confirm-link">
+                06 75 77 78 59
               </a>
               {" "}or email{" "}
-              <a href="mailto:support@akswear.com" className="confirm-link">
-                support@akswear.com
+              <a href="mailto:akswear1@gmail.com" className="confirm-link">
+                akswear1@gmail.com
               </a>
             </p>
           </div>

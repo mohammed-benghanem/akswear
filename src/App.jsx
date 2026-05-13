@@ -9,6 +9,7 @@ import Product from "./pages/Product";
 import Cart from "./pages/Cart";
 import Order from "./pages/Order";
 import Confirmation from "./pages/Confirmation";
+import ComingSoon from "./pages/ComingSoon";
 import ScrollToTop from "./components/ScrollToTop";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
@@ -32,6 +33,19 @@ function StoreWrapper() {
   const { pathname } = useLocation();
   const isAdmin = pathname.startsWith("/admin");
 
+  const MAINTENANCE_MODE = true;
+
+  if (MAINTENANCE_MODE && !isAdmin) {
+    return (
+      <>
+        <Helmet htmlAttributes={{ lang: i18n.language, dir: i18n.dir() }}>
+          <title>Coming Soon | AKS Wear</title>
+        </Helmet>
+        <ComingSoon />
+      </>
+    );
+  }
+
   return (
     <>
       <Helmet htmlAttributes={{ lang: i18n.language, dir: i18n.dir() }}>
@@ -42,11 +56,11 @@ function StoreWrapper() {
       {!isAdmin && <Navbar />}
       <Routes>
         {/* ── Store routes ── */}
-        <Route path="/"             element={<Home />} />
-        <Route path="/shop"         element={<Shop />} />
-        <Route path="/product/:id"  element={<Product />} />
-        <Route path="/cart"         element={<Cart />} />
-        <Route path="/order"        element={<Order />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/shop" element={<Shop />} />
+        <Route path="/product/:id" element={<Product />} />
+        <Route path="/cart" element={<Cart />} />
+        <Route path="/order" element={<Order />} />
         <Route path="/confirmation" element={<Confirmation />} />
 
         {/* ── Admin routes ── */}
@@ -61,7 +75,7 @@ function StoreWrapper() {
         >
           <Route index element={<AdminDashboard />} />
           <Route path="products" element={<AdminProducts />} />
-          <Route path="orders"   element={<AdminOrders />} />
+          <Route path="orders" element={<AdminOrders />} />
           <Route path="settings" element={<AdminSettings />} />
         </Route>
 
