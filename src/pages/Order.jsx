@@ -263,7 +263,7 @@ export default function Order() {
               <div className="guarantee-row"><span>📞</span> Confirmed by phone call</div>
               <div className="guarantee-row"><span>💵</span> Cash on delivery available</div>
               <div className="guarantee-row"><span>📦</span> Tracked shipping</div>
-              <div className="guarantee-row"><span>↩️</span> 30-day easy returns</div>
+              <div className="guarantee-row"><span>↩️</span> Easy returns</div>
             </div>
           </aside>
         </div>

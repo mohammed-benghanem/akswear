@@ -1,11 +1,16 @@
 import { supabase } from "./supabase";
 
+// Normalize DB row (snake_case) → app-friendly (camelCase)
 const normalizeOrder = (o) => {
   if (!o) return o;
   return {
     ...o,
-    customerName: o.customer_name,
-    createdAt: o.created_at,
+    customerName: o.customer_name ?? o.customerName ?? "",
+    createdAt: o.created_at ?? o.createdAt ?? new Date().toISOString(),
+    // Ensure items is always an array
+    items: Array.isArray(o.items) ? o.items : [],
+    total: typeof o.total === "number" ? o.total : parseFloat(o.total) || 0,
+    status: o.status || "pending",
   };
 };
 

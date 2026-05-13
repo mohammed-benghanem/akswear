@@ -63,9 +63,9 @@ const collections = [
 ];
 
 const testimonials = [
-  { stars: 5, text: "The quality is outstanding. The Argentina World Cup kit arrived in perfect condition, exactly as described.", name: "James M.", sub: "London, UK", avatar: "⚽" },
-  { stars: 5, text: "Super fast delivery and a phone call to confirm my order — love the personal touch. Will order again!", name: "Sofia L.", sub: "Madrid, Spain", avatar: "🏆" },
-  { stars: 5, text: "Best retro kit store online. Got the AC Milan 2003 jersey and it looks incredible. 10/10.", name: "Marco T.", sub: "Milan, Italy", avatar: "🌟" },
+  { stars: 5, text: "The quality is outstanding. The Argentina World Cup kit arrived in perfect condition, exactly as described.", name: "Yassine B.", sub: "Casablanca, Morocco", avatar: "🇲🇦" },
+  { stars: 5, text: "Super fast delivery and a phone call to confirm my order — love the personal touch. Will order again!", name: "Salma K.", sub: "Rabat, Morocco", avatar: "🏆" },
+  { stars: 5, text: "Best retro kit store online. Got the AC Milan 2003 jersey and it looks incredible. 10/10.", name: "Amine T.", sub: "Marrakech, Morocco", avatar: "⚽" },
 ];
 
 const CardSkeleton = () => (
@@ -106,8 +106,6 @@ export default function Home() {
           <div className="promo-strip-item"><FaShippingFast className="promo-icon" /> <span>{t('home.promo.fastDelivery')}</span></div>
           <div className="promo-strip-dot" />
           <div className="promo-strip-item"><FaPhoneAlt className="promo-icon" /> <span>{t('home.promo.orderPhone')}</span></div>
-          <div className="promo-strip-dot" />
-          <div className="promo-strip-item"><FaUndo className="promo-icon" /> <span>{t('home.promo.returns')}</span></div>
           <div className="promo-strip-dot" />
           <div className="promo-strip-item"><FaCheckCircle className="promo-icon" /> <span>{t('home.promo.authentic')}</span></div>
         </div>

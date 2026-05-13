@@ -58,10 +58,28 @@ export default function AdminLayout() {
   };
 
   return (
-    <div className="adm-root">
+    <div className="adm-root" dir="ltr" lang="en">
       <Helmet>
         <title>Admin Panel | AKS Wear</title>
       </Helmet>
+
+      {/* ── Mobile Top Bar ── */}
+      <div className="adm-mobile-top">
+        <div className="adm-brand-icon">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+          </svg>
+        </div>
+        <div className="adm-mobile-brand">AKS Wear</div>
+        <button className="adm-mobile-logout" onClick={handleLogout} title="Logout">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
+            <polyline points="16 17 21 12 16 7" />
+            <line x1="21" y1="12" x2="9" y2="12" />
+          </svg>
+        </button>
+      </div>
+
       {/* ── Sidebar ── */}
       <aside className="adm-sidebar">
         <div className="adm-sidebar-top">
@@ -93,7 +111,7 @@ export default function AdminLayout() {
                 }
               >
                 <span className="adm-nav-icon">{item.icon}</span>
-                <span>{item.label}</span>
+                <span className="adm-nav-label">{item.label}</span>
                 {item.label === "Orders" && stats.pendingOrders > 0 && (
                   <span className="adm-nav-badge">{stats.pendingOrders}</span>
                 )}

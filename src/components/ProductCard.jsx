@@ -42,8 +42,10 @@ export default function ProductCard({ product }) {
   const halfStar = product.rating - fullStars >= 0.5;
   const emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
 
+  const outOfStock = product.stock === 0;
+
   return (
-    <Link to={`/product/${product.id}`} className="product-card">
+    <Link to={`/product/${product.id}`} className={`product-card${outOfStock ? " out-of-stock" : ""}`}>
       <div className="product-image-wrap">
         <img
           src={product.images[0]}
@@ -71,12 +73,16 @@ export default function ProductCard({ product }) {
 
         {/* Hover overlay */}
         <div className="product-overlay">
-          <button
-            className={`add-cart-btn${added ? " added" : ""}`}
-            onClick={handleAddToCart}
-          >
-            {added ? "✓" : t('product.addToCart')}
-          </button>
+          {outOfStock ? (
+            <span className="out-of-stock-label">{t('product.outOfStock')}</span>
+          ) : (
+            <button
+              className={`add-cart-btn${added ? " added" : ""}`}
+              onClick={handleAddToCart}
+            >
+              {added ? "✓" : t('product.addToCart')}
+            </button>
+          )}
         </div>
       </div>
 

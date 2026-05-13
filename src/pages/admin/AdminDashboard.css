@@ -279,4 +279,13 @@
 }
 @media (max-width: 640px) {
   .adb-stats-grid { grid-template-columns: 1fr 1fr; }
+  .adb-chart { height: 140px; }
+}
+@media (max-width: 480px) {
+  .adb-stats-grid { grid-template-columns: 1fr; }
+  .adb-header { flex-direction: column; gap: 8px; align-items: stretch; }
+  .adb-title { font-size: 1.5rem; }
+  .adb-stat-card { padding: 16px; }
+  .adb-card-header { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .adb-see-all { align-self: flex-start; }
 }

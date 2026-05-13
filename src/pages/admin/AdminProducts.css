@@ -1,6 +1,7 @@
 /* ── Admin Products ─────────────────────────────────────────── */
 .adp-root {
   max-width: 1200px;
+
   animation: fadeInUp 0.5s ease both;
 }
 
@@ -121,6 +122,37 @@
   background: var(--adm-active-bg);
   color: var(--adm-gold);
   border-color: rgba(212, 168, 67, 0.3);
+}
+
+/* Error Banner */
+.adp-error-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 16px;
+  background: rgba(248, 113, 113, 0.1);
+  border: 1px solid rgba(248, 113, 113, 0.25);
+  border-radius: 10px;
+  color: #f87171;
+  font-size: 0.84rem;
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.adp-error-banner svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* Loading State */
+.adp-loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 60px 20px;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.9rem;
 }
 
 /* Table */
@@ -322,9 +354,10 @@
   backdrop-filter: blur(4px);
   z-index: 999;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
-  padding: 24px;
+  padding: 40px 24px;
+  overflow-y: auto;
   animation: fadeIn 0.2s ease;
 }
 
@@ -340,12 +373,14 @@
 
 /* Product Modal */
 .adp-modal {
+  margin: auto;
   background: #0f1623;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 18px;
   width: 100%;
-  max-width: 680px;
+  height: auto;
   max-height: 90vh;
+  max-width: 680px;
   display: flex;
   flex-direction: column;
   box-shadow: 0 32px 80px rgba(0, 0, 0, 0.6);
@@ -649,4 +684,90 @@
   color: rgba(255, 255, 255, 0.3);
   font-size: 0.75rem;
   margin-top: 4px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .adp-header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+
+  .adp-title {
+    font-size: 1.5rem;
+  }
+
+  .adp-add-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .adp-filters {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .adp-search-wrap {
+    width: 100%;
+  }
+
+  .adp-cat-tabs {
+    overflow-x: auto;
+    padding-bottom: 4px;
+    width: 100%;
+  }
+
+  .adp-cat-tab {
+    white-space: nowrap;
+  }
+
+  .adp-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .adp-modal {
+    margin: 16px;
+    width: auto;
+    max-height: calc(100vh - 32px);
+  }
+
+  .adp-overlay {
+    padding: 16px;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 480px) {
+
+  .adp-table th,
+  .adp-table td {
+    padding: 10px 8px;
+    font-size: 0.8rem;
+  }
+
+  .adp-thumb-wrap {
+    width: 36px;
+    height: 36px;
+  }
+
+  .adp-prod-name {
+    font-size: 0.75rem;
+  }
+
+  .adp-price {
+    font-size: 0.8rem;
+  }
+
+  .adp-edit-btn,
+  .adp-del-btn {
+    padding: 4px 8px;
+  }
+
+  .adp-edit-btn span,
+  .adp-del-btn span {
+    display: none;
+  }
+
+  /* hide text, keep icon */
 }

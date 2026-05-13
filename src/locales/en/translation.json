@@ -18,7 +18,7 @@
     "promo": {
       "fastDelivery": "Fast Delivery",
       "orderPhone": "Order by Phone — No Online Payment",
-      "returns": "30-Day Easy Returns",
+      "returns": "Easy Returns",
       "authentic": "100% Authentic Jerseys"
     },
     "hero": {
@@ -73,7 +73,7 @@
       },
       "returns": {
         "title": "Easy Returns",
-        "desc": "Changed your mind? No problem — 30-day hassle-free returns."
+        "desc": "Easy, hassle-free returns. No questions asked."
       }
     },
     "newArrivals": {
@@ -85,9 +85,9 @@
       "label": "Customer Reviews",
       "title1": "What Fans",
       "title2": "Say",
-      "t1": "The quality is outstanding. The Argentina World Cup kit arrived in perfect condition, exactly as described.",
-      "t2": "Super fast delivery and a phone call to confirm my order — love the personal touch. Will order again!",
-      "t3": "Best retro kit store online. Got the AC Milan 2003 jersey and it looks incredible. 10/10."
+      "t1": "The quality is outstanding. The jersey arrived to Casablanca in perfect condition, exactly as described. Top!",
+      "t2": "Super fast delivery via Amana and a phone call to confirm my order — love the personal touch. Will order again!",
+      "t3": "Best retro kit store in Morocco. Got the AC Milan 2003 jersey and it looks incredible. 10/10 tbarkellah."
     }
   },
   "product": {
@@ -99,7 +99,35 @@
     "shipping": "Shipping info",
     "features": "Features",
     "related": "You might also like",
-    "currency": "DH"
+    "currency": "DH",
+    "reviews": "reviews",
+    "save": "Save",
+    "quantity": "Quantity",
+    "buyNow": "Buy Now",
+    "freeShipping": "Free shipping on all orders",
+    "easyReturns": "Easy returns",
+    "phoneConfirm": "Order confirmed by phone",
+    "sizeError": "Please select a size before adding to cart",
+    "relatedTitle1": "Related",
+    "relatedTitle2": "Jerseys",
+    "tabDescription": "Description",
+    "tabSizing": "Sizing",
+    "tabDelivery": "Delivery",
+    "feat1": "Official licensed jersey",
+    "feat2": "Premium breathable fabric",
+    "feat3": "Embroidered club badge",
+    "feat4": "Machine washable at 30\u00b0C",
+    "sizingNote": "All sizes are based on chest measurements. When in doubt, size up.",
+    "sizingSize": "Size",
+    "sizingChest": "Chest (cm)",
+    "sizingLength": "Length (cm)",
+    "sizingFit": "Fit",
+    "fitSlim": "Slim",
+    "fitRegular": "Regular",
+    "fitRelaxed": "Relaxed",
+    "delivery1": "\ud83d\udea5 Delivery within 2\u20133 business days",
+    "delivery2": "\ud83d\udce6 Free delivery on all orders",
+    "delivery3": "\ud83d\udcde We confirm your order by phone before shipping"
   },
   "cart": {
     "title": "Your Cart",
@@ -111,7 +139,17 @@
     "freeShipping": "Free",
     "total": "Total",
     "checkout": "Proceed to Checkout",
-    "currency": "DH"
+    "currency": "DH",
+    "selection": "Your Selection",
+    "product": "Product",
+    "price": "Price",
+    "quantity": "Quantity",
+    "itemTotal": "Total",
+    "size": "Size:",
+    "clearCart": "Clear Cart",
+    "noOnlinePayment": "No online payment. We'll call you to confirm your order.",
+    "cod": "Cash on Delivery",
+    "freeReturns": "Free Returns"
   },
   "shop": {
     "title": "All Jerseys",

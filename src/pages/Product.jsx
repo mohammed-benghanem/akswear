@@ -151,7 +151,7 @@ export default function Product() {
             <div className="detail-rating">
               <span className="stars">{"★".repeat(Math.floor(product.rating))}{"☆".repeat(5 - Math.floor(product.rating))}</span>
               <span className="rating-num">{product.rating}</span>
-              <span className="rating-reviews">({product.reviews} reviews)</span>
+              <span className="rating-reviews">({product.reviews} {t('product.reviews')})</span>
             </div>
 
             <div className="detail-prices">
@@ -159,7 +159,7 @@ export default function Product() {
               {product.originalPrice && (
                 <>
                   <span className="detail-original">{product.originalPrice.toFixed(0)} DH</span>
-                  <span className="discount-chip">Save {discount}%</span>
+                  <span className="discount-chip">{t('product.save')} {discount}%</span>
                 </>
               )}
             </div>
@@ -183,12 +183,12 @@ export default function Product() {
                   </button>
                 ))}
               </div>
-              {sizeError && <p className="error-msg">⚠ Please select a size before adding to cart</p>}
+              {sizeError && <p className="error-msg">⚠ {t('product.sizeError')}</p>}
             </div>
 
             {/* Quantity */}
             <div className="selector-group">
-              <div className="selector-label"><span>Quantity</span></div>
+              <div className="selector-label"><span>{t('product.quantity')}</span></div>
               <div className="qty-control">
                 <button
                   className="qty-btn"
@@ -221,15 +221,15 @@ export default function Product() {
                 }
               </button>
               <button className="btn btn-outline buy-now-btn" onClick={handleBuyNow}>
-                Buy Now
+                {t('product.buyNow')}
               </button>
             </div>
 
             {/* Trust badges */}
             <div className="trust-badges">
-              <div className="trust-badge"><span>📦</span> Free shipping on all orders</div>
-              <div className="trust-badge"><span>↩️</span> 30-day returns</div>
-              <div className="trust-badge"><span>📞</span> Order confirmed by phone</div>
+              <div className="trust-badge"><span>📦</span> {t('product.freeShipping')}</div>
+              <div className="trust-badge"><span>↩️</span> {t('product.easyReturns')}</div>
+              <div className="trust-badge"><span>📞</span> {t('product.phoneConfirm')}</div>
             </div>
 
             <div className="divider" />
@@ -246,13 +246,17 @@ export default function Product() {
         {/* ── Tabs ── */}
         <div className="product-tabs">
           <div className="tabs-nav">
-            {["description", "sizing", "delivery"].map((tab) => (
+            {[
+              { key: "description", label: t('product.tabDescription') },
+              { key: "sizing",      label: t('product.tabSizing') },
+              { key: "delivery",    label: t('product.tabDelivery') },
+            ].map(({ key, label }) => (
               <button
-                key={tab}
-                className={`tab-btn${activeTab === tab ? " active" : ""}`}
-                onClick={() => setActiveTab(tab)}
+                key={key}
+                className={`tab-btn${activeTab === key ? " active" : ""}`}
+                onClick={() => setActiveTab(key)}
               >
-                {tab.charAt(0).toUpperCase() + tab.slice(1)}
+                {label}
               </button>
             ))}
           </div>
@@ -261,25 +265,25 @@ export default function Product() {
               <div>
                 <p className="tab-text">{product.description}</p>
                 <ul className="feature-list">
-                  <li>✓ Official licensed jersey</li>
-                  <li>✓ Premium breathable fabric</li>
-                  <li>✓ Embroidered club badge</li>
-                  <li>✓ Machine washable at 30°C</li>
+                  <li>✓ {t('product.feat1')}</li>
+                  <li>✓ {t('product.feat2')}</li>
+                  <li>✓ {t('product.feat3')}</li>
+                  <li>✓ {t('product.feat4')}</li>
                 </ul>
               </div>
             )}
             {activeTab === "sizing" && (
               <div className="sizing-table-wrap">
-                <p className="tab-text" style={{ marginBottom: '20px' }}>All sizes are based on chest measurements. When in doubt, size up.</p>
+                <p className="tab-text" style={{ marginBottom: '20px' }}>{t('product.sizingNote')}</p>
                 <table className="sizing-table">
-                  <thead><tr><th>Size</th><th>Chest (cm)</th><th>Length (cm)</th><th>Fit</th></tr></thead>
+                  <thead><tr><th>{t('product.sizingSize')}</th><th>{t('product.sizingChest')}</th><th>{t('product.sizingLength')}</th><th>{t('product.sizingFit')}</th></tr></thead>
                   <tbody>
-                    <tr><td>XS</td><td>84–89</td><td>67</td><td>Slim</td></tr>
-                    <tr><td>S</td><td>90–95</td><td>70</td><td>Slim</td></tr>
-                    <tr><td>M</td><td>96–101</td><td>73</td><td>Regular</td></tr>
-                    <tr><td>L</td><td>102–107</td><td>76</td><td>Regular</td></tr>
-                    <tr><td>XL</td><td>108–113</td><td>79</td><td>Relaxed</td></tr>
-                    <tr><td>XXL</td><td>114–119</td><td>82</td><td>Relaxed</td></tr>
+                    <tr><td>XS</td><td>84–89</td><td>67</td><td>{t('product.fitSlim')}</td></tr>
+                    <tr><td>S</td><td>90–95</td><td>70</td><td>{t('product.fitSlim')}</td></tr>
+                    <tr><td>M</td><td>96–101</td><td>73</td><td>{t('product.fitRegular')}</td></tr>
+                    <tr><td>L</td><td>102–107</td><td>76</td><td>{t('product.fitRegular')}</td></tr>
+                    <tr><td>XL</td><td>108–113</td><td>79</td><td>{t('product.fitRelaxed')}</td></tr>
+                    <tr><td>XXL</td><td>114–119</td><td>82</td><td>{t('product.fitRelaxed')}</td></tr>
                   </tbody>
                 </table>
               </div>
@@ -287,11 +291,9 @@ export default function Product() {
             {activeTab === "delivery" && (
               <div>
                 <ul className="feature-list">
-                  <li>🚀 Standard Delivery: 3–5 business days</li>
-                  <li>⚡ Express Delivery: 1–2 business days</li>
-                  <li>🌍 International: 7–14 business days</li>
-                  <li>📦 Free standard delivery on all orders</li>
-                  <li>📞 We confirm your order by phone before shipping</li>
+                  <li>{t('product.delivery1')}</li>
+                  <li>{t('product.delivery2')}</li>
+                  <li>{t('product.delivery3')}</li>
                 </ul>
               </div>
             )}
@@ -303,7 +305,7 @@ export default function Product() {
           <section className="related-section">
             <div className="section-header">
               <div className="section-label">{t('product.related')}</div>
-              <h2 className="section-title">Related <span>Jerseys</span></h2>
+              <h2 className="section-title">{t('product.relatedTitle1')} <span>{t('product.relatedTitle2')}</span></h2>
               <div className="gold-line" />
             </div>
             <div className="related-grid">

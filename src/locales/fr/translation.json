@@ -18,7 +18,7 @@
     "promo": {
       "fastDelivery": "Livraison Rapide",
       "orderPhone": "Commander par Téléphone — Pas de Paiement en Ligne",
-      "returns": "Retours Faciles sous 30 Jours",
+      "returns": "Retours Faciles",
       "authentic": "Maillots 100% Authentiques"
     },
     "hero": {
@@ -73,7 +73,7 @@
       },
       "returns": {
         "title": "Retours Faciles",
-        "desc": "Vous avez changé d'avis? Pas de problème — retours faciles sous 30 jours."
+        "desc": "Retours faciles, sans tracas."
       }
     },
     "newArrivals": {
@@ -85,9 +85,9 @@
       "label": "Avis Clients",
       "title1": "Ce Que Disent",
       "title2": "Les Fans",
-      "t1": "La qualité est exceptionnelle. Le kit de l'Argentine de la Coupe du Monde est arrivé en parfait état, exactement comme décrit.",
-      "t2": "Livraison super rapide et un appel pour confirmer ma commande — j'adore la touche personnelle. Je commanderai à nouveau!",
-      "t3": "Meilleur magasin de kits rétro en ligne. J'ai le maillot de l'AC Milan 2003 et il est incroyable. 10/10."
+      "t1": "La qualité est exceptionnelle. Le maillot est arrivé à Casablanca en parfait état, exactement comme décrit. Top !",
+      "t2": "Livraison super rapide via Amana et un appel pour confirmer ma commande — j'adore le service. Je commanderai à nouveau !",
+      "t3": "Meilleur magasin de maillots au Maroc. J'ai pris le maillot de l'AC Milan 2003 et il est incroyable. 10/10 tbarkellah."
     }
   },
   "product": {
@@ -99,7 +99,35 @@
     "shipping": "Infos de livraison",
     "features": "Caractéristiques",
     "related": "Vous aimerez aussi",
-    "currency": "DH"
+    "currency": "DH",
+    "reviews": "avis",
+    "save": "Économisez",
+    "quantity": "Quantité",
+    "buyNow": "Acheter Maintenant",
+    "freeShipping": "Livraison gratuite sur toutes les commandes",
+    "easyReturns": "Retours faciles",
+    "phoneConfirm": "Commande confirmée par téléphone",
+    "sizeError": "Veuillez sélectionner une taille avant d'ajouter au panier",
+    "relatedTitle1": "Maillots",
+    "relatedTitle2": "Similaires",
+    "tabDescription": "Description",
+    "tabSizing": "Tailles",
+    "tabDelivery": "Livraison",
+    "feat1": "Maillot sous licence officielle",
+    "feat2": "Tissu respirant premium",
+    "feat3": "Écusson du club brodé",
+    "feat4": "Lavable en machine à 30°C",
+    "sizingNote": "Toutes les tailles sont basées sur les mesures de poitrine. En cas de doute, prenez la taille supérieure.",
+    "sizingSize": "Taille",
+    "sizingChest": "Poitrine (cm)",
+    "sizingLength": "Longueur (cm)",
+    "sizingFit": "Coupe",
+    "fitSlim": "Slim",
+    "fitRegular": "Régulière",
+    "fitRelaxed": "Décontractée",
+    "delivery1": "\ud83d\udea5 Livraison en 2\u20133 jours ouvrés",
+    "delivery2": "\ud83d\udce6 Livraison gratuite sur toutes les commandes",
+    "delivery3": "\ud83d\udcde Nous confirmons votre commande par téléphone avant l'expédition"
   },
   "cart": {
     "title": "Votre Panier",
@@ -111,7 +139,17 @@
     "freeShipping": "Gratuit",
     "total": "Total",
     "checkout": "Procéder au Paiement",
-    "currency": "DH"
+    "currency": "DH",
+    "selection": "Votre Sélection",
+    "product": "Produit",
+    "price": "Prix",
+    "quantity": "Quantité",
+    "itemTotal": "Total",
+    "size": "Taille :",
+    "clearCart": "Vider le Panier",
+    "noOnlinePayment": "Pas de paiement en ligne. Nous vous appellerons pour confirmer.",
+    "cod": "Paiement à la Livraison",
+    "freeReturns": "Retours Gratuits"
   },
   "shop": {
     "title": "Tous les Maillots",

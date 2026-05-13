@@ -11,9 +11,12 @@ import {
   updateOrderStatus as sbUpdateOrderStatus,
   createOrder as sbCreateOrder,
   updateOrderDetails as sbUpdateOrderDetails,
-  deleteOrder as sbDeleteOrder
+  deleteOrder as sbDeleteOrder,
 } from "../lib/orderService";
-import { fetchSettings as sbFetchSettings, saveSettings as sbSaveSettings } from "../lib/settingsService";
+import {
+  fetchSettings as sbFetchSettings,
+  saveSettings as sbSaveSettings,
+} from "../lib/settingsService";
 
 const AdminContext = createContext(null);
 
@@ -32,9 +35,11 @@ export const AdminProvider = ({ children }) => {
 
   const [products, setProducts] = useState([]);
   const [productsLoading, setProductsLoading] = useState(false);
+  const [productsError, setProductsError] = useState(null);
 
   const [orders, setOrders] = useState([]);
   const [ordersLoading, setOrdersLoading] = useState(false);
+  const [ordersError, setOrdersError] = useState(null);
 
   const [settings, setSettings] = useState(DEFAULT_SETTINGS);
 
@@ -42,17 +47,25 @@ export const AdminProvider = ({ children }) => {
   const loadData = useCallback(async () => {
     setProductsLoading(true);
     setOrdersLoading(true);
+    setProductsError(null);
+    setOrdersError(null);
     try {
       const [prods, ords, sett] = await Promise.all([
         sbFetchProducts(),
         sbFetchOrders(),
         sbFetchSettings(),
       ]);
-      setProducts(prods);
-      setOrders(ords);
+      setProducts(Array.isArray(prods) ? prods : []);
+      setOrders(Array.isArray(ords) ? ords : []);
       setSettings(sett || DEFAULT_SETTINGS);
     } catch (err) {
       console.error("Admin data load error:", err);
+      // Split error to show in each section
+      const errMsg = err?.message || "Failed to load data from Supabase";
+      setProductsError(errMsg);
+      setOrdersError(errMsg);
+      setProducts([]);
+      setOrders([]);
     } finally {
       setProductsLoading(false);
       setOrdersLoading(false);
@@ -68,10 +81,20 @@ export const AdminProvider = ({ children }) => {
       if (authed) loadData();
     });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
       const authed = !!session;
       setIsAuthenticated(authed);
-      if (authed) loadData();
+      if (authed) {
+        loadData();
+      } else {
+        // Clear data on sign out
+        setProducts([]);
+        setOrders([]);
+        setProductsError(null);
+        setOrdersError(null);
+      }
     });
 
     return () => subscription.unsubscribe();
@@ -93,6 +116,8 @@ export const AdminProvider = ({ children }) => {
     setIsAuthenticated(false);
     setProducts([]);
     setOrders([]);
+    setProductsError(null);
+    setOrdersError(null);
   }, []);
 
   // ── Products CRUD ────────────────────────────────────────
@@ -105,6 +130,7 @@ export const AdminProvider = ({ children }) => {
   const updateProduct = useCallback(async (id, updates) => {
     const updated = await sbUpdateProduct(id, updates);
     setProducts((prev) => prev.map((p) => (p.id === id ? updated : p)));
+    return updated;
   }, []);
 
   const deleteProduct = useCallback(async (id) => {
@@ -114,31 +140,24 @@ export const AdminProvider = ({ children }) => {
 
   // ── Orders ───────────────────────────────────────────────
   const addOrder = useCallback(async (order) => {
-    const id = `ORD-${Date.now().toString().slice(-4)}${Math.random().toString(36).substr(2, 4).toUpperCase()}`;
+    const clientId = `ORD-${Date.now().toString().slice(-6)}`;
     const orderData = {
-      id,
+      id: clientId,
       customer_name: order.customerName,
       phone: order.phone,
       city: order.city,
       address: order.address,
       note: order.note,
-      items: order.items,
-      subtotal: order.subtotal,
-      shipping: order.shipping,
-      total: order.total,
-      status: "pending"
+      items: order.items || [],
+      subtotal: parseFloat(order.subtotal) || parseFloat(order.total) || 0,
+      shipping: parseFloat(order.shipping) || 0,
+      total: parseFloat(order.total) || 0,
+      status: "pending",
     };
-    try {
-      const created = await sbCreateOrder(orderData);
-      setOrders((prev) => [created, ...prev]);
-      return created;
-    } catch (err) {
-      console.error("Failed to create order in Supabase:", err);
-      // Fallback to local state if Supabase fails (e.g. if anonymous inserts are blocked or network error)
-      const fallbackOrder = { ...orderData, created_at: new Date().toISOString() };
-      setOrders((prev) => [fallbackOrder, ...prev]);
-      return fallbackOrder;
-    }
+
+    const created = await sbCreateOrder(orderData);
+    setOrders((prev) => [created, ...prev]);
+    return created;
   }, []);
 
   const updateOrderStatus = useCallback(async (id, status) => {
@@ -147,7 +166,7 @@ export const AdminProvider = ({ children }) => {
   }, []);
 
   const updateOrderDetails = useCallback(async (id, updates) => {
-    // Map camelCase to snake_case for DB
+    // Map camelCase → snake_case for the DB
     const dbUpdates = {};
     if (updates.customerName !== undefined) dbUpdates.customer_name = updates.customerName;
     if (updates.phone !== undefined) dbUpdates.phone = updates.phone;
@@ -155,11 +174,15 @@ export const AdminProvider = ({ children }) => {
     if (updates.city !== undefined) dbUpdates.city = updates.city;
     if (updates.note !== undefined) dbUpdates.note = updates.note;
     if (updates.total !== undefined) dbUpdates.total = updates.total;
+    if (updates.items !== undefined) dbUpdates.items = updates.items;
 
-    await sbUpdateOrderDetails(id, dbUpdates);
+    const updated = await sbUpdateOrderDetails(id, dbUpdates);
 
-    // Update local state with the camelCase versions
-    setOrders((prev) => prev.map((o) => (o.id === id ? { ...o, ...updates } : o)));
+    // Merge into local state
+    setOrders((prev) =>
+      prev.map((o) => (o.id === id ? { ...o, ...updates, ...updated } : o))
+    );
+    return updated;
   }, []);
 
   const deleteOrder = useCallback(async (id) => {
@@ -184,22 +207,39 @@ export const AdminProvider = ({ children }) => {
   const stats = {
     totalProducts: products.length,
     totalOrders: orders.length,
-    totalRevenue: orders.reduce((acc, o) => acc + (o.total || 0), 0),
+    totalRevenue: orders.reduce((acc, o) => acc + (Number(o.total) || 0), 0),
     pendingOrders: orders.filter((o) => o.status === "pending").length,
     recentOrders: orders.slice(0, 5),
   };
 
   return (
-    <AdminContext.Provider value={{
-      isAuthenticated, authLoading,
-      login, logout, loginError, setLoginError,
-      products, productsLoading,
-      addProduct, updateProduct, deleteProduct,
-      orders, ordersLoading,
-      addOrder, updateOrderStatus, updateOrderDetails, deleteOrder,
-      settings, updateSettings,
-      stats, loadData,
-    }}>
+    <AdminContext.Provider
+      value={{
+        isAuthenticated,
+        authLoading,
+        login,
+        logout,
+        loginError,
+        setLoginError,
+        products,
+        productsLoading,
+        productsError,
+        addProduct,
+        updateProduct,
+        deleteProduct,
+        orders,
+        ordersLoading,
+        ordersError,
+        addOrder,
+        updateOrderStatus,
+        updateOrderDetails,
+        deleteOrder,
+        settings,
+        updateSettings,
+        stats,
+        loadData,
+      }}
+    >
       {children}
     </AdminContext.Provider>
   );

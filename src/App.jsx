@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import { CartProvider } from "./context/CartContext";
 import { AdminProvider } from "./context/AdminContext";
 import Navbar from "./components/Navbar";
@@ -9,11 +10,9 @@ import Product from "./pages/Product";
 import Cart from "./pages/Cart";
 import Order from "./pages/Order";
 import Confirmation from "./pages/Confirmation";
-import ComingSoon from "./pages/ComingSoon";
 import ScrollToTop from "./components/ScrollToTop";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
-import { useLanguageDirection } from "./hooks/useLanguageDirection";
 
 // Admin pages
 import AdminLogin from "./pages/admin/AdminLogin";
@@ -27,28 +26,36 @@ import ProtectedRoute from "./components/admin/ProtectedRoute";
 import "./index.css";
 
 
+
+
+
 function StoreWrapper() {
   const { t, i18n } = useTranslation();
-  useLanguageDirection();
   const { pathname } = useLocation();
   const isAdmin = pathname.startsWith("/admin");
 
-  const MAINTENANCE_MODE = true;
+  // Only change dir/lang on the HTML element — never touch i18n language for admin
+  useEffect(() => {
+    if (isAdmin) {
+      document.documentElement.dir = "ltr";
+      document.documentElement.lang = "en";
+      document.body.className = document.body.className.replace(/\blang-[a-z]{2}\b/g, "");
+      document.body.classList.add("lang-en");
+    } else {
+      const dir = i18n.language === "ar" ? "rtl" : "ltr";
+      document.documentElement.dir = dir;
+      document.documentElement.lang = i18n.language;
+      document.body.className = document.body.className.replace(/\blang-[a-z]{2}\b/g, "");
+      document.body.classList.add(`lang-${i18n.language}`);
+    }
+  }, [isAdmin, i18n.language]);
 
-  if (MAINTENANCE_MODE && !isAdmin) {
-    return (
-      <>
-        <Helmet htmlAttributes={{ lang: i18n.language, dir: i18n.dir() }}>
-          <title>Coming Soon | AKS Wear</title>
-        </Helmet>
-        <ComingSoon />
-      </>
-    );
-  }
+  const lang = isAdmin ? "en" : i18n.language;
+  const dir  = isAdmin ? "ltr" : i18n.dir();
 
   return (
     <>
-      <Helmet htmlAttributes={{ lang: i18n.language, dir: i18n.dir() }}>
+      <Helmet htmlAttributes={{ lang, dir }}>
         <title>{t('site.title')}</title>
         <meta name="description" content={t('site.description')} />
       </Helmet>

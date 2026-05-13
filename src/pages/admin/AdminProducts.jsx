@@ -1,4 +1,5 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
+import { createPortal } from "react-dom";
 import { useAdmin } from "../../context/AdminContext";
 import { uploadImage } from "../../lib/productService";
 import "./AdminProducts.css";
@@ -13,7 +14,7 @@ const CATEGORIES = ["club", "national", "retro"];
 const BADGES = ["", "New", "Sale", "Limited", "Retro", "Best"];
 
 export default function AdminProducts() {
-  const { products, addProduct, updateProduct, deleteProduct } = useAdmin();
+  const { products, productsLoading, productsError, addProduct, updateProduct, deleteProduct } = useAdmin();
   const [modal, setModal]     = useState(null); // null | 'add' | 'edit'
   const [editProduct, setEditProduct] = useState(null);
   const [form, setForm]       = useState(EMPTY_FORM);
@@ -43,13 +44,15 @@ export default function AdminProducts() {
       country: product.country || "",
       category: product.category || "club",
       price: product.price || "",
-      originalPrice: product.originalPrice || "",
+      originalPrice: product.originalPrice ?? product.original_price ?? "",
       badge: product.badge || "",
       stock: product.stock ?? 50,
       description: product.description || "",
-      tags: Array.isArray(product.tags) ? product.tags.join(", ") : "",
-      sizes: Array.isArray(product.sizes) ? product.sizes.join(",") : "XS,S,M,L,XL,XXL",
-      images: Array.isArray(product.images) ? product.images.filter(s => typeof s === "string").join("\n") : "",
+      tags: Array.isArray(product.tags) ? product.tags.join(", ") : (product.tags || ""),
+      sizes: Array.isArray(product.sizes) ? product.sizes.join(",") : (product.sizes || "XS,S,M,L,XL,XXL"),
+      images: Array.isArray(product.images)
+        ? product.images.filter(s => typeof s === "string").join("\n")
+        : (product.images || ""),
     });
     setModal("edit");
   };
@@ -68,39 +71,49 @@ export default function AdminProducts() {
     price: parseFloat(form.price) || 0,
     originalPrice: form.originalPrice ? parseFloat(form.originalPrice) : null,
     stock: parseInt(form.stock) || 0,
-    tags: form.tags.split(",").map((t) => t.trim()).filter(Boolean),
-    sizes: form.sizes.split(",").map((s) => s.trim()).filter(Boolean),
-    images: form.images.split("\n").map((s) => s.trim()).filter(Boolean),
+    tags: form.tags ? form.tags.split(",").map((t) => t.trim()).filter(Boolean) : [],
+    sizes: form.sizes ? form.sizes.split(",").map((s) => s.trim()).filter(Boolean) : [],
+    images: form.images ? form.images.split("\n").map((s) => s.trim()).filter(Boolean) : [],
     club: form.club || null,
     badge: form.badge || null,
   });
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!form.name.trim() || !form.price) return;
     setSaving(true);
-    setTimeout(() => {
+    try {
       if (modal === "add") {
-        addProduct(buildPayload());
+        await addProduct(buildPayload());
         showToast("✓ Product added successfully");
       } else {
-        updateProduct(editProduct.id, buildPayload());
+        await updateProduct(editProduct.id, buildPayload());
         showToast("✓ Product updated successfully");
       }
-      setSaving(false);
       closeModal();
-    }, 600);
+    } catch (err) {
+      console.error("Save product failed:", err);
+      showToast("❌ Failed to save: " + (err?.message || "Unknown error"));
+    } finally {
+      setSaving(false);
+    }
   };
 
-  const handleDelete = (id) => {
-    deleteProduct(id);
-    setDeleteConfirm(null);
-    showToast("Product deleted");
+  const handleDelete = async (id) => {
+    try {
+      await deleteProduct(id);
+      setDeleteConfirm(null);
+      showToast("✓ Product deleted");
+    } catch (err) {
+      console.error("Delete product failed:", err);
+      setDeleteConfirm(null);
+      showToast("❌ Failed to delete: " + (err?.message || "Unknown error"));
+    }
   };
 
   const handleImageUpload = async (e) => {
     const files = Array.from(e.target.files);
     if (files.length === 0) return;
-    
+
     setUploadingImages(true);
     try {
       const urls = await Promise.all(files.map(file => uploadImage(file)));
@@ -111,10 +124,10 @@ export default function AdminProducts() {
       showToast("✓ Images uploaded");
     } catch (err) {
       console.error("Image upload failed:", err);
-      showToast("❌ Image upload failed");
+      showToast("❌ Image upload failed: " + (err?.message || "Unknown error"));
     } finally {
       setUploadingImages(false);
-      e.target.value = null; // reset input
+      e.target.value = null;
     }
   };
 
@@ -127,7 +140,7 @@ export default function AdminProducts() {
 
   return (
     <div className="adp-root">
-      {toast && <div className="adp-toast">{toast}</div>}
+      {toast && createPortal(<div className="adp-toast">{toast}</div>, document.body)}
 
       {/* Header */}
       <div className="adp-header">
@@ -169,101 +182,118 @@ export default function AdminProducts() {
         </div>
       </div>
 
+      {/* Error State */}
+      {productsError && (
+        <div className="adp-error-banner">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          <span>Supabase error: {productsError}. Please make sure you are logged in and your Supabase RLS policies allow admin access.</span>
+        </div>
+      )}
+
       {/* Table */}
       <div className="adp-table-card">
         <div className="adp-table-wrap">
-          <table className="adp-table">
-            <thead>
-              <tr>
-                <th>Product</th>
-                <th>Category</th>
-                <th>Price</th>
-                <th>Stock</th>
-                <th>Badge</th>
-                <th>Rating</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.length === 0 ? (
+          {productsLoading ? (
+            <div className="adp-loading">
+              <span className="adp-spinner" />
+              <span>Loading products...</span>
+            </div>
+          ) : (
+            <table className="adp-table">
+              <thead>
                 <tr>
-                  <td colSpan={7} style={{ textAlign: "center", padding: "40px", color: "rgba(255,255,255,0.25)" }}>
-                    No products found
-                  </td>
+                  <th>Product</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Stock</th>
+                  <th>Badge</th>
+                  <th>Rating</th>
+                  <th>Actions</th>
                 </tr>
-              ) : filtered.map((p) => {
-                const imgSrc = typeof p.images?.[0] === "string" ? p.images[0] : "/logo.png";
-                return (
-                  <tr key={p.id}>
-                    <td>
-                      <div className="adp-product-cell">
-                        <div className="adp-thumb-wrap">
-                          <img src={imgSrc} alt={p.name} className="adp-thumb" />
-                        </div>
-                        <div>
-                          <div className="adp-prod-name">{p.name}</div>
-                          <div className="adp-prod-sub">{p.club || p.country}</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <span className={`adp-cat-badge adp-cat-${p.category}`}>
-                        {p.category}
-                      </span>
-                    </td>
-                    <td>
-                      <div className="adp-price-cell">
-                        <span className="adp-price">{p.price} DH</span>
-                        {p.originalPrice && (
-                          <span className="adp-original">{p.originalPrice} DH</span>
-                        )}
-                      </div>
-                    </td>
-                    <td>
-                      <span className={`adp-stock ${(p.stock ?? 50) < 10 ? "adp-stock-low" : ""}`}>
-                        {p.stock ?? 50}
-                      </span>
-                    </td>
-                    <td>
-                      {p.badge ? (
-                        <span className="adp-badge-pill">{p.badge}</span>
-                      ) : (
-                        <span className="adp-no-badge">—</span>
-                      )}
-                    </td>
-                    <td>
-                      <span className="adp-rating">★ {p.rating?.toFixed(1)}</span>
-                      <span className="adp-reviews"> ({p.reviews})</span>
-                    </td>
-                    <td>
-                      <div className="adp-actions">
-                        <button className="adp-edit-btn" onClick={() => openEdit(p)} title="Edit">
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
-                            <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                          </svg>
-                          Edit
-                        </button>
-                        <button className="adp-del-btn" onClick={() => setDeleteConfirm(p)} title="Delete">
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <polyline points="3 6 5 6 21 6"/>
-                            <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/>
-                            <path d="M10 11v6M14 11v6"/>
-                          </svg>
-                          Delete
-                        </button>
-                      </div>
+              </thead>
+              <tbody>
+                {filtered.length === 0 ? (
+                  <tr>
+                    <td colSpan={7} style={{ textAlign: "center", padding: "40px", color: "rgba(255,255,255,0.25)" }}>
+                      {productsError ? "⚠ Could not load products" : "No products found"}
                     </td>
                   </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                ) : filtered.map((p) => {
+                  const imgSrc = typeof p.images?.[0] === "string" ? p.images[0] : "/logo.png";
+                  return (
+                    <tr key={p.id}>
+                      <td>
+                        <div className="adp-product-cell">
+                          <div className="adp-thumb-wrap">
+                            <img src={imgSrc} alt={p.name} className="adp-thumb" />
+                          </div>
+                          <div>
+                            <div className="adp-prod-name">{p.name}</div>
+                            <div className="adp-prod-sub">{p.club || p.country}</div>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <span className={`adp-cat-badge adp-cat-${p.category}`}>
+                          {p.category}
+                        </span>
+                      </td>
+                      <td>
+                        <div className="adp-price-cell">
+                          <span className="adp-price">{p.price} DH</span>
+                          {(p.originalPrice || p.original_price) && (
+                            <span className="adp-original">{p.originalPrice || p.original_price} DH</span>
+                          )}
+                        </div>
+                      </td>
+                      <td>
+                        <span className={`adp-stock ${(p.stock ?? 50) < 10 ? "adp-stock-low" : ""}`}>
+                          {p.stock ?? 50}
+                        </span>
+                      </td>
+                      <td>
+                        {p.badge ? (
+                          <span className="adp-badge-pill">{p.badge}</span>
+                        ) : (
+                          <span className="adp-no-badge">—</span>
+                        )}
+                      </td>
+                      <td>
+                        <span className="adp-rating">★ {p.rating?.toFixed(1) ?? "—"}</span>
+                        <span className="adp-reviews"> ({p.reviews ?? 0})</span>
+                      </td>
+                      <td>
+                        <div className="adp-actions">
+                          <button className="adp-edit-btn" onClick={() => openEdit(p)} title="Edit">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                              <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
+                              <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                            </svg>
+                            <span>Edit</span>
+                          </button>
+                          <button className="adp-del-btn" onClick={() => setDeleteConfirm(p)} title="Delete">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                              <polyline points="3 6 5 6 21 6"/>
+                              <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/>
+                              <path d="M10 11v6M14 11v6"/>
+                            </svg>
+                            <span>Delete</span>
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          )}
         </div>
       </div>
 
       {/* ── Add/Edit Modal ── */}
-      {modal && (
+      {modal && createPortal(
         <div className="adp-overlay" onClick={closeModal}>
           <div className="adp-modal" onClick={(e) => e.stopPropagation()}>
             <div className="adp-modal-header">
@@ -335,21 +365,21 @@ export default function AdminProducts() {
                         </svg>
                       )}
                       <span>{uploadingImages ? "Uploading..." : "Upload Images"}</span>
-                      <input 
-                        type="file" 
-                        multiple 
-                        accept="image/*" 
-                        onChange={handleImageUpload} 
+                      <input
+                        type="file"
+                        multiple
+                        accept="image/*"
+                        onChange={handleImageUpload}
                         disabled={uploadingImages}
                         hidden
                       />
                     </label>
                   </div>
-                  <textarea 
-                    value={form.images} 
-                    onChange={handleChange("images")} 
-                    rows={3} 
-                    placeholder="https://example.com/image1.jpg&#10;https://example.com/image2.jpg" 
+                  <textarea
+                    value={form.images}
+                    onChange={handleChange("images")}
+                    rows={3}
+                    placeholder={"https://example.com/image1.jpg\nhttps://example.com/image2.jpg"}
                     className="adp-images-textarea"
                   />
                   <small className="adp-field-hint">Upload files or paste direct URLs (one per line).</small>
@@ -368,11 +398,12 @@ export default function AdminProducts() {
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       {/* ── Delete Confirm ── */}
-      {deleteConfirm && (
+      {deleteConfirm && createPortal(
         <div className="adp-overlay" onClick={() => setDeleteConfirm(null)}>
           <div className="adp-confirm-modal" onClick={(e) => e.stopPropagation()}>
             <div className="adp-confirm-icon">🗑️</div>
@@ -385,7 +416,8 @@ export default function AdminProducts() {
               </button>
             </div>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   );

@@ -39,7 +39,7 @@ export default function Cart() {
         {/* Header */}
         <div className="cart-header">
           <div>
-            <div className="section-label">Your Selection</div>
+            <div className="section-label">{t('cart.selection')}</div>
             <h1 className="section-title">{t('cart.title')}</h1>
             <div className="gold-line" />
           </div>
@@ -54,10 +54,10 @@ export default function Cart() {
           {/* Items */}
           <div className="cart-items">
             <div className="cart-items-header">
-              <span>Product</span>
-              <span>Price</span>
-              <span>Quantity</span>
-              <span>Total</span>
+              <span>{t('cart.product')}</span>
+              <span>{t('cart.price')}</span>
+              <span>{t('cart.quantity')}</span>
+              <span>{t('cart.itemTotal')}</span>
               <span></span>
             </div>
 
@@ -69,11 +69,11 @@ export default function Cart() {
                   </Link>
                   <div className="cart-item-details">
                     <Link to={`/product/${item.id}`} className="cart-item-name">{item.name}</Link>
-                    <div className="cart-item-meta">Size: <span>{item.size}</span></div>
+                    <div className="cart-item-meta">{t('cart.size')} <span>{item.size}</span></div>
                   </div>
                 </div>
 
-                <div className="cart-item-price">{item.price.toFixed(0)} DH</div>
+                <div className="cart-item-price">{item.price.toFixed(0)} {t('cart.currency')}</div>
 
                 <div className="cart-item-qty">
                   <button
@@ -89,7 +89,7 @@ export default function Cart() {
                   >+</button>
                 </div>
 
-                <div className="cart-item-total">{(item.price * item.quantity).toFixed(0)} DH</div>
+                <div className="cart-item-total">{(item.price * item.quantity).toFixed(0)} {t('cart.currency')}</div>
 
                 <button
                   className="remove-btn"
@@ -104,30 +104,30 @@ export default function Cart() {
             {/* Continue shopping */}
             <div className="cart-continue">
               <Link to="/shop" className="btn btn-dark">
-                ← Continue Shopping
+                ← {t('cart.continueShopping')}
               </Link>
               <button
                 className="btn-danger btn"
                 onClick={() => dispatch({ type: "CLEAR_CART" })}
               >
-                Clear Cart
+                {t('cart.clearCart')}
               </button>
             </div>
           </div>
 
           {/* Summary */}
           <aside className="cart-summary glass-card">
-            <h2 className="summary-title">Order Summary</h2>
+            <h2 className="summary-title">{t('cart.summary')}</h2>
 
             <div className="summary-rows">
               <div className="summary-row">
                 <span>{t('cart.subtotal')} ({items.reduce((a, i) => a + i.quantity, 0)})</span>
-                <span>{totalPrice.toFixed(0)} DH</span>
+                <span>{totalPrice.toFixed(0)} {t('cart.currency')}</span>
               </div>
               <div className="summary-row">
                 <span>{t('cart.shipping')}</span>
                 <span className={shipping === 0 ? "free-shipping" : ""}>
-                  {shipping === 0 ? t('cart.freeShipping') : `${shipping.toFixed(0)} DH`}
+                  {shipping === 0 ? t('cart.freeShipping') : `${shipping.toFixed(0)} ${t('cart.currency')}`}
                 </span>
               </div>
 
@@ -137,7 +137,7 @@ export default function Cart() {
 
             <div className="summary-total">
               <span>{t('cart.total')}</span>
-              <span>{total.toFixed(0)} DH</span>
+              <span>{total.toFixed(0)} {t('cart.currency')}</span>
             </div>
 
             <Link to="/order" className="btn btn-primary place-order-btn">
@@ -146,12 +146,12 @@ export default function Cart() {
 
             <div className="no-payment-note">
               <span>📞</span>
-              <span>No online payment. We'll call you to confirm your order.</span>
+              <span>{t('cart.noOnlinePayment')}</span>
             </div>
 
             <div className="summary-accepts">
-              <span className="accept-tag">💵 Cash on Delivery</span>
-              <span className="accept-tag">📦 Free Returns</span>
+              <span className="accept-tag">💵 {t('cart.cod')}</span>
+              <span className="accept-tag">📦 {t('cart.freeReturns')}</span>
             </div>
           </aside>
         </div>

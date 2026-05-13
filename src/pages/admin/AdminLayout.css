@@ -19,6 +19,42 @@
   background: var(--adm-bg);
   font-family: 'Inter', system-ui, sans-serif;
   color: var(--adm-text);
+  flex-direction: column;
+}
+
+/* Mobile Top Bar (Hidden on Desktop) */
+.adm-mobile-top {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 20px;
+  background: var(--adm-surface);
+  border-bottom: 1px solid var(--adm-border);
+  position: sticky;
+  top: 0;
+  z-index: 101;
+}
+.adm-mobile-brand {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: -0.3px;
+  flex: 1;
+  margin-left: 12px;
+}
+.adm-mobile-logout {
+  background: rgba(229,83,83,0.1);
+  color: #e55353;
+  border: none;
+  border-radius: 8px;
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.adm-mobile-logout:hover {
+  background: rgba(229,83,83,0.2);
+  color: #f87171;
 }
 
 /* ── Sidebar ── */
@@ -145,9 +181,54 @@
 
 /* ── Responsive ── */
 @media (max-width: 768px) {
-  .adm-sidebar { width: 60px; }
-  .adm-brand-name, .adm-brand-sub, .adm-nav-item span:not(.adm-nav-icon):not(.adm-nav-badge) { display: none; }
-  .adm-main { margin-left: 60px; padding: 20px 16px; }
-  .adm-nav-item { justify-content: center; padding: 12px; }
-  .adm-nav-badge { display: none; }
+  .adm-root { flex-direction: column; }
+  
+  .adm-mobile-top { display: flex; }
+  
+  .adm-sidebar {
+    width: 100%;
+    min-height: auto;
+    height: 64px;
+    top: auto;
+    bottom: 0;
+    flex-direction: row;
+    border-right: none;
+    border-top: 1px solid var(--adm-border);
+    padding: 0;
+    z-index: 100;
+  }
+  
+  .adm-sidebar-top { padding: 0; flex: 1; display: flex; align-items: center; }
+  .adm-sidebar-bottom, .adm-brand, .adm-divider { display: none; }
+  
+  .adm-nav { flex-direction: row; width: 100%; justify-content: space-around; gap: 0; }
+  .adm-nav-item {
+    padding: 8px 4px;
+    flex-direction: column;
+    gap: 4px;
+    border-radius: 0;
+    justify-content: center;
+  }
+  .adm-nav-item:hover { background: transparent; }
+  .adm-nav-item.active { background: transparent; color: var(--adm-gold); }
+  
+  .adm-nav-label { font-size: 0.65rem; }
+  
+  .adm-nav-badge {
+    position: absolute;
+    top: 4px;
+    right: 50%;
+    margin-right: -16px;
+    margin-left: 0;
+    padding: 1px 5px;
+    font-size: 0.6rem;
+  }
+  
+  .adm-main {
+    margin-left: 0;
+    margin-bottom: 64px;
+    padding: 20px 16px;
+    min-height: calc(100vh - 64px - 61px); /* minus topbar and bottom nav */
+  }
 }
+
