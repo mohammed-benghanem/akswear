@@ -206,6 +206,45 @@
   gap: 12px;
 }
 
+.adp-order-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.adp-order-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.6);
+  border-radius: 6px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 0.6rem;
+}
+
+.adp-order-btn:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.adp-order-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.adp-order-pos {
+  font-weight: 700;
+  color: var(--adm-gold, #d4a843);
+  min-width: 16px;
+  text-align: center;
+}
+
 .adp-thumb-wrap {
   width: 44px;
   height: 44px;

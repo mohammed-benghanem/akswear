@@ -75,8 +75,8 @@ const CardSkeleton = () => (
 export default function Home() {
   const { t } = useTranslation();
   const { products, loading } = useProducts();
-  const featured = products.filter((p) => p.badge === "Best Seller" || p.badge === "Limited" || p.rating >= 4.8).slice(0, 4);
-  const newArrivals = products.filter((p) => p.badge === "New").slice(0, 4);
+  const featured = products.filter((p) => p.stock !== 0 && (p.badge === "Best Seller" || p.badge === "Limited" || p.rating >= 4.8)).slice(0, 4);
+  const newArrivals = products.filter((p) => p.stock !== 0 && p.badge === "New").slice(0, 4);
 
   const translatedCollections = [
     { ...collections[0], title: t('home.collections.club.title'), sub: t('home.collections.club.sub'), count: t('home.collections.club.count') },

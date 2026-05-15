@@ -69,7 +69,10 @@ export default function Shop() {
       case "price-asc":  list.sort((a, b) => a.price - b.price); break;
       case "price-desc": list.sort((a, b) => b.price - a.price); break;
       case "rating":     list.sort((a, b) => b.rating - a.rating); break;
-      default: break;
+      case "featured":
+      default:
+        list.sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
+        break;
     }
 
     return list;

@@ -196,6 +196,26 @@
   font-weight: 700;
 }
 
+/* Out of Stock Banner */
+.out-of-stock-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #fdecea;
+  border: 1.5px solid #f5c6c2;
+  border-radius: var(--radius-lg);
+  padding: 18px 22px;
+  margin-bottom: 24px;
+  font-weight: 700;
+  font-size: 1rem;
+  color: #c0392b;
+  letter-spacing: 0.5px;
+}
+
+.out-of-stock-banner span:first-child {
+  font-size: 1.4rem;
+}
+
 /* Size Selector */
 .selector-group {
   margin-bottom: 24px;

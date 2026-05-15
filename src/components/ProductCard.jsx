@@ -13,6 +13,7 @@ export default function ProductCard({ product }) {
   const handleAddToCart = (e) => {
     e.preventDefault();
     e.stopPropagation();
+    if (product.stock === 0) return;
     dispatch({
       type: "ADD_ITEM",
       payload: {

@@ -7,6 +7,7 @@ const normalizeProduct = (p) => {
     ...p,
     // Map snake_case DB columns to camelCase used by the UI
     originalPrice: p.original_price ?? p.originalPrice ?? null,
+    sortOrder: p.sort_order ?? p.sortOrder ?? 0,
   };
 };
 
@@ -14,7 +15,8 @@ export const fetchProducts = async () => {
   const { data, error } = await supabase
     .from("products")
     .select("*")
-    .order("id");
+    .order("sort_order", { ascending: true })
+    .order("id", { ascending: true }); // secondary sort for ties
   if (error) throw error;
   return data.map(normalizeProduct);
 };
@@ -31,8 +33,12 @@ export const fetchProductById = async (id) => {
 
 export const createProduct = async (product) => {
   // Strip camelCase keys that conflict with DB schema, map to snake_case
-  const { originalPrice, ...rest } = product;
-  const dbProduct = { ...rest, original_price: originalPrice ?? null };
+  const { originalPrice, sortOrder, ...rest } = product;
+  const dbProduct = {
+    ...rest,
+    original_price: originalPrice ?? null,
+    sort_order: sortOrder ?? 0,
+  };
   // Remove undefined values that can cause issues
   Object.keys(dbProduct).forEach(k => dbProduct[k] === undefined && delete dbProduct[k]);
 
@@ -46,8 +52,12 @@ export const createProduct = async (product) => {
 };
 
 export const updateProduct = async (id, updates) => {
-  const { originalPrice, ...rest } = updates;
-  const dbUpdates = { ...rest, original_price: originalPrice ?? null };
+  const { originalPrice, sortOrder, ...rest } = updates;
+  const dbUpdates = {
+    ...rest,
+    original_price: originalPrice ?? null,
+    sort_order: sortOrder !== undefined ? sortOrder : undefined,
+  };
   // Remove undefined values
   Object.keys(dbUpdates).forEach(k => dbUpdates[k] === undefined && delete dbUpdates[k]);
 
@@ -59,6 +69,16 @@ export const updateProduct = async (id, updates) => {
     .single();
   if (error) throw error;
   return normalizeProduct(data);
+};
+
+// Swap sort_order between two products (used by ↑/↓ reorder buttons)
+export const swapProductOrder = async (idA, orderA, idB, orderB) => {
+  const [r1, r2] = await Promise.all([
+    supabase.from("products").update({ sort_order: orderB }).eq("id", idA),
+    supabase.from("products").update({ sort_order: orderA }).eq("id", idB),
+  ]);
+  if (r1.error) throw r1.error;
+  if (r2.error) throw r2.error;
 };
 
 export const deleteProduct = async (id) => {

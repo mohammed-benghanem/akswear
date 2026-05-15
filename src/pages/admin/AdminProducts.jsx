@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { createPortal } from "react-dom";
 import { useAdmin } from "../../context/AdminContext";
-import { uploadImage } from "../../lib/productService";
+import { uploadImage, swapProductOrder } from "../../lib/productService";
 import "./AdminProducts.css";
 
 const EMPTY_FORM = {
   name: "", club: "", country: "", category: "club",
   price: "", originalPrice: "", badge: "", stock: 50,
+  sortOrder: 0,
   description: "", tags: "", sizes: "XS,S,M,L,XL,XXL",
   images: "",
 };
@@ -47,6 +48,7 @@ export default function AdminProducts() {
       originalPrice: product.originalPrice ?? product.original_price ?? "",
       badge: product.badge || "",
       stock: product.stock ?? 50,
+      sortOrder: product.sortOrder ?? product.sort_order ?? 0,
       description: product.description || "",
       tags: Array.isArray(product.tags) ? product.tags.join(", ") : (product.tags || ""),
       sizes: Array.isArray(product.sizes) ? product.sizes.join(",") : (product.sizes || "XS,S,M,L,XL,XXL"),
@@ -71,6 +73,7 @@ export default function AdminProducts() {
     price: parseFloat(form.price) || 0,
     originalPrice: form.originalPrice ? parseFloat(form.originalPrice) : null,
     stock: parseInt(form.stock) || 0,
+    sortOrder: parseInt(form.sortOrder) || 0,
     tags: form.tags ? form.tags.split(",").map((t) => t.trim()).filter(Boolean) : [],
     sizes: form.sizes ? form.sizes.split(",").map((s) => s.trim()).filter(Boolean) : [],
     images: form.images ? form.images.split("\n").map((s) => s.trim()).filter(Boolean) : [],
@@ -131,12 +134,48 @@ export default function AdminProducts() {
     }
   };
 
+  const handleMoveUp = async (index) => {
+    const list = [...filtered];
+    if (index === 0) return;
+    const a = list[index];
+    const b = list[index - 1];
+    try {
+      await swapProductOrder(a.id, a.sortOrder ?? 0, b.id, b.sortOrder ?? 0);
+      // Refresh by updating both in the products list via updateProduct
+      await Promise.all([
+        updateProduct(a.id, { ...a, sortOrder: b.sortOrder ?? 0 }),
+        updateProduct(b.id, { ...b, sortOrder: a.sortOrder ?? 0 }),
+      ]);
+      showToast("✓ Order updated");
+    } catch (err) {
+      showToast("❌ Failed to reorder: " + (err?.message || "Unknown error"));
+    }
+  };
+
+  const handleMoveDown = async (index) => {
+    const list = [...filtered];
+    if (index === list.length - 1) return;
+    const a = list[index];
+    const b = list[index + 1];
+    try {
+      await swapProductOrder(a.id, a.sortOrder ?? 0, b.id, b.sortOrder ?? 0);
+      await Promise.all([
+        updateProduct(a.id, { ...a, sortOrder: b.sortOrder ?? 0 }),
+        updateProduct(b.id, { ...b, sortOrder: a.sortOrder ?? 0 }),
+      ]);
+      showToast("✓ Order updated");
+    } catch (err) {
+      showToast("❌ Failed to reorder: " + (err?.message || "Unknown error"));
+    }
+  };
+
   const filtered = products
     .filter((p) => catFilter === "all" || p.category === catFilter)
     .filter((p) => {
       const q = search.toLowerCase();
       return !q || p.name.toLowerCase().includes(q) || (p.club || "").toLowerCase().includes(q);
-    });
+    })
+    .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0));
 
   return (
     <div className="adp-root">
@@ -204,6 +243,7 @@ export default function AdminProducts() {
             <table className="adp-table">
               <thead>
                 <tr>
+                  <th>Pos</th>
                   <th>Product</th>
                   <th>Category</th>
                   <th>Price</th>
@@ -216,14 +256,35 @@ export default function AdminProducts() {
               <tbody>
                 {filtered.length === 0 ? (
                   <tr>
-                    <td colSpan={7} style={{ textAlign: "center", padding: "40px", color: "rgba(255,255,255,0.25)" }}>
+                    <td colSpan={8} style={{ textAlign: "center", padding: "40px", color: "rgba(255,255,255,0.25)" }}>
                       {productsError ? "⚠ Could not load products" : "No products found"}
                     </td>
                   </tr>
-                ) : filtered.map((p) => {
+                ) : filtered.map((p, idx) => {
                   const imgSrc = typeof p.images?.[0] === "string" ? p.images[0] : "/logo.png";
                   return (
                     <tr key={p.id}>
+                      <td>
+                        <div className="adp-order-controls">
+                          <button 
+                            className="adp-order-btn" 
+                            onClick={() => handleMoveUp(idx)} 
+                            disabled={idx === 0}
+                            title="Move Up"
+                          >
+                            ▲
+                          </button>
+                          <span className="adp-order-pos">{idx + 1}</span>
+                          <button 
+                            className="adp-order-btn" 
+                            onClick={() => handleMoveDown(idx)} 
+                            disabled={idx === filtered.length - 1}
+                            title="Move Down"
+                          >
+                            ▼
+                          </button>
+                        </div>
+                      </td>
                       <td>
                         <div className="adp-product-cell">
                           <div className="adp-thumb-wrap">
@@ -340,6 +401,10 @@ export default function AdminProducts() {
                 <div className="adp-field">
                   <label>Stock Quantity</label>
                   <input type="number" value={form.stock} onChange={handleChange("stock")} min="0" />
+                </div>
+                <div className="adp-field">
+                  <label>Position (lower = first)</label>
+                  <input type="number" value={form.sortOrder} onChange={handleChange("sortOrder")} min="0" placeholder="0" />
                 </div>
                 <div className="adp-field">
                   <label>Sizes (comma-separated)</label>

@@ -53,7 +53,10 @@ export default function Product() {
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
     : null;
 
+  const outOfStock = product.stock === 0;
+
   const handleAddToCart = () => {
+    if (outOfStock) return;
     if (!selectedSize) {
       setSizeError(true);
       setTimeout(() => setSizeError(false), 2500);
@@ -75,6 +78,7 @@ export default function Product() {
   };
 
   const handleBuyNow = () => {
+    if (outOfStock) return;
     if (!selectedSize) {
       setSizeError(true);
       setTimeout(() => setSizeError(false), 2500);
@@ -167,63 +171,72 @@ export default function Product() {
             <div className="divider" />
 
             {/* Size Selector */}
-            <div className="selector-group">
-              <div className="selector-label">
-                <span>{t('product.size')}</span>
-                {selectedSize && <span className="selected-val">{selectedSize}</span>}
+            {outOfStock ? (
+              <div className="out-of-stock-banner">
+                <span>🚫</span>
+                <span>{t('product.outOfStock')}</span>
               </div>
-              <div className={`size-grid${sizeError ? " size-error" : ""}`}>
-                {product.sizes.map((s) => (
+            ) : (
+              <>
+                <div className="selector-group">
+                  <div className="selector-label">
+                    <span>{t('product.size')}</span>
+                    {selectedSize && <span className="selected-val">{selectedSize}</span>}
+                  </div>
+                  <div className={`size-grid${sizeError ? " size-error" : ""}`}>
+                    {product.sizes.map((s) => (
+                      <button
+                        key={s}
+                        className={`size-btn${selectedSize === s ? " active" : ""}`}
+                        onClick={() => { setSelectedSize(s); setSizeError(false); }}
+                      >
+                        {s}
+                      </button>
+                    ))}
+                  </div>
+                  {sizeError && <p className="error-msg">⚠ {t('product.sizeError')}</p>}
+                </div>
+
+                {/* Quantity */}
+                <div className="selector-group">
+                  <div className="selector-label"><span>{t('product.quantity')}</span></div>
+                  <div className="qty-control">
+                    <button
+                      className="qty-btn"
+                      onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                      disabled={quantity <= 1}
+                    >−</button>
+                    <span className="qty-value">{quantity}</span>
+                    <button
+                      className="qty-btn"
+                      onClick={() => setQuantity((q) => Math.min(10, q + 1))}
+                      disabled={quantity >= 10}
+                    >+</button>
+                  </div>
+                </div>
+
+                {/* Actions */}
+                <div className="product-actions">
                   <button
-                    key={s}
-                    className={`size-btn${selectedSize === s ? " active" : ""}`}
-                    onClick={() => { setSelectedSize(s); setSizeError(false); }}
+                    className={`btn btn-primary add-to-cart-main${addedMsg ? " success" : ""}`}
+                    onClick={handleAddToCart}
                   >
-                    {s}
+                    {addedMsg
+                      ? "✓"
+                      : (
+                        <>
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" /><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" /></svg>
+                          {t('product.addToCart')}
+                        </>
+                      )
+                    }
                   </button>
-                ))}
-              </div>
-              {sizeError && <p className="error-msg">⚠ {t('product.sizeError')}</p>}
-            </div>
-
-            {/* Quantity */}
-            <div className="selector-group">
-              <div className="selector-label"><span>{t('product.quantity')}</span></div>
-              <div className="qty-control">
-                <button
-                  className="qty-btn"
-                  onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                  disabled={quantity <= 1}
-                >−</button>
-                <span className="qty-value">{quantity}</span>
-                <button
-                  className="qty-btn"
-                  onClick={() => setQuantity((q) => Math.min(10, q + 1))}
-                  disabled={quantity >= 10}
-                >+</button>
-              </div>
-            </div>
-
-            {/* Actions */}
-            <div className="product-actions">
-              <button
-                className={`btn btn-primary add-to-cart-main${addedMsg ? " success" : ""}`}
-                onClick={handleAddToCart}
-              >
-                {addedMsg
-                  ? "✓"
-                  : (
-                    <>
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="9" cy="21" r="1" /><circle cx="20" cy="21" r="1" /><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" /></svg>
-                      {t('product.addToCart')}
-                    </>
-                  )
-                }
-              </button>
-              <button className="btn btn-outline buy-now-btn" onClick={handleBuyNow}>
-                {t('product.buyNow')}
-              </button>
-            </div>
+                  <button className="btn btn-outline buy-now-btn" onClick={handleBuyNow}>
+                    {t('product.buyNow')}
+                  </button>
+                </div>
+              </>
+            )}
 
             {/* Trust badges */}
             <div className="trust-badges">
