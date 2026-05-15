@@ -23,6 +23,16 @@ export const fetchOrders = async () => {
   return data.map(normalizeOrder);
 };
 
+export const fetchOrderById = async (id) => {
+  const { data, error } = await supabase
+    .from("orders")
+    .select("*")
+    .eq("id", id)
+    .single();
+  if (error) throw error;
+  return normalizeOrder(data);
+};
+
 export const createOrder = async (order) => {
   const { data, error } = await supabase
     .from("orders")

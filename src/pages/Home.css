@@ -422,6 +422,22 @@
   background: rgba(255, 255, 255, 0.2);
 }
 
+.fade-enter {
+  animation: fadeEnter 0.5s ease-out forwards;
+}
+
+@keyframes fadeEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 /* ══════════════════════════════ PROMO BANNER ═════════════════════ */
 .promo-banner {
   background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, #e8b830 100%);
@@ -779,10 +795,23 @@
   color: white;
   box-shadow: 0 4px 20px rgba(37, 211, 102, 0.35);
   transition: var(--transition);
+  animation: whatsapp-float-bounce 2.5s infinite ease-in-out;
+}
+
+@keyframes whatsapp-float-bounce {
+  0%, 100% {
+    transform: translateY(0);
+    box-shadow: 0 4px 20px rgba(37, 211, 102, 0.35);
+  }
+  50% {
+    transform: translateY(-12px);
+    box-shadow: 0 16px 28px rgba(37, 211, 102, 0.45);
+  }
 }
 
 .whatsapp-float:hover {
-  transform: scale(1.1);
+  animation-play-state: paused;
+  transform: scale(1.1) translateY(0);
   box-shadow: 0 8px 28px rgba(37, 211, 102, 0.5);
 }
 
@@ -1001,6 +1030,7 @@
     padding: 13px 20px;
   }
 }
+
 html[dir='rtl'] .logos-track--left {
   animation: marquee-left-rtl 30s linear infinite;
 }
@@ -1010,12 +1040,21 @@ html[dir='rtl'] .logos-track--right {
 }
 
 @keyframes marquee-left-rtl {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(33.333%); }
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(33.333%);
+  }
 }
 
 @keyframes marquee-right-rtl {
-  0% { transform: translateX(33.333%); }
-  100% { transform: translateX(0); }
-}
+  0% {
+    transform: translateX(33.333%);
+  }
 
+  100% {
+    transform: translateX(0);
+  }
+}

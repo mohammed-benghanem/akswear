@@ -68,18 +68,31 @@ export default function AdminProducts() {
     setForm((f) => ({ ...f, [field]: e.target.value }));
   };
 
-  const buildPayload = () => ({
-    ...form,
-    price: parseFloat(form.price) || 0,
-    originalPrice: form.originalPrice ? parseFloat(form.originalPrice) : null,
-    stock: parseInt(form.stock) || 0,
-    sortOrder: parseInt(form.sortOrder) || 0,
-    tags: form.tags ? form.tags.split(",").map((t) => t.trim()).filter(Boolean) : [],
-    sizes: form.sizes ? form.sizes.split(",").map((s) => s.trim()).filter(Boolean) : [],
-    images: form.images ? form.images.split("\n").map((s) => s.trim()).filter(Boolean) : [],
-    club: form.club || null,
-    badge: form.badge || null,
-  });
+  const buildPayload = () => {
+    const finalSizes = form.sizes ? form.sizes.split(",").map((s) => s.trim()).filter(Boolean) : [];
+    let finalStock = parseInt(form.stock) || 0;
+    
+    // If sizes contain quantities (e.g. "S:2"), auto-calculate total stock
+    if (finalSizes.some(s => s.includes(':'))) {
+      finalStock = finalSizes.reduce((acc, s) => {
+        const parts = s.split(':');
+        return acc + (parts.length > 1 ? (parseInt(parts[1]) || 0) : 0);
+      }, 0);
+    }
+
+    return {
+      ...form,
+      price: parseFloat(form.price) || 0,
+      originalPrice: form.originalPrice ? parseFloat(form.originalPrice) : null,
+      stock: finalStock,
+      sortOrder: parseInt(form.sortOrder) || 0,
+      tags: form.tags ? form.tags.split(",").map((t) => t.trim()).filter(Boolean) : [],
+      sizes: finalSizes,
+      images: form.images ? form.images.split("\n").map((s) => s.trim()).filter(Boolean) : [],
+      club: form.club || null,
+      badge: form.badge || null,
+    };
+  };
 
   const handleSave = async () => {
     if (!form.name.trim() || !form.price) return;
@@ -312,6 +325,11 @@ export default function AdminProducts() {
                       <td>
                         <span className={`adp-stock ${(p.stock ?? 50) < 10 ? "adp-stock-low" : ""}`}>
                           {p.stock ?? 50}
+                          {p.sizes && p.sizes.some(s => s.includes(':')) && (
+                            <span style={{ fontSize: '0.85em', opacity: 0.8, display: 'block', marginTop: '4px' }}>
+                              ({p.sizes.join(', ')})
+                            </span>
+                          )}
                         </span>
                       </td>
                       <td>
@@ -408,7 +426,10 @@ export default function AdminProducts() {
                 </div>
                 <div className="adp-field">
                   <label>Sizes (comma-separated)</label>
-                  <input value={form.sizes} onChange={handleChange("sizes")} placeholder="XS,S,M,L,XL,XXL" />
+                  <input value={form.sizes} onChange={handleChange("sizes")} placeholder="S:2,M:3,L:1 or S,M,L" />
+                  <small className="adp-field-hint" style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.5)', marginTop: '4px', display: 'block' }}>
+                    Use S:2 format to set stock per size.
+                  </small>
                 </div>
                 <div className="adp-field adp-field-full">
                   <label>Tags (comma-separated)</label>

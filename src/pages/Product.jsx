@@ -62,6 +62,7 @@ export default function Product() {
       setTimeout(() => setSizeError(false), 2500);
       return;
     }
+    const cleanSize = selectedSize.includes(':') ? selectedSize.split(':')[0] : selectedSize;
     dispatch({
       type: "ADD_ITEM",
       payload: {
@@ -69,7 +70,7 @@ export default function Product() {
         name: product.name,
         price: product.price,
         image: product.images[0],
-        size: selectedSize,
+        size: cleanSize,
         quantity,
       },
     });
@@ -84,6 +85,7 @@ export default function Product() {
       setTimeout(() => setSizeError(false), 2500);
       return;
     }
+    const cleanSize = selectedSize.includes(':') ? selectedSize.split(':')[0] : selectedSize;
     dispatch({
       type: "ADD_ITEM",
       payload: {
@@ -91,7 +93,7 @@ export default function Product() {
         name: product.name,
         price: product.price,
         image: product.images[0],
-        size: selectedSize,
+        size: cleanSize,
         quantity,
       },
     });
@@ -181,18 +183,34 @@ export default function Product() {
                 <div className="selector-group">
                   <div className="selector-label">
                     <span>{t('product.size')}</span>
-                    {selectedSize && <span className="selected-val">{selectedSize}</span>}
+                    {selectedSize && <span className="selected-val">{selectedSize.includes(':') ? selectedSize.split(':')[0] : selectedSize}</span>}
                   </div>
                   <div className={`size-grid${sizeError ? " size-error" : ""}`}>
-                    {product.sizes.map((s) => (
-                      <button
-                        key={s}
-                        className={`size-btn${selectedSize === s ? " active" : ""}`}
-                        onClick={() => { setSelectedSize(s); setSizeError(false); }}
-                      >
-                        {s}
-                      </button>
-                    ))}
+                    {product.sizes.map((s) => {
+                      const sizeName = s.includes(':') ? s.split(':')[0] : s;
+                      const sizeStock = s.includes(':') ? parseInt(s.split(':')[1]) : null;
+                      const isOutOfStock = sizeStock === 0;
+                      return (
+                        <button
+                          key={s}
+                          className={`size-btn${selectedSize === s ? " active" : ""}${isOutOfStock ? " disabled-size" : ""}`}
+                          onClick={() => {
+                            if (!isOutOfStock) {
+                              setSelectedSize(s);
+                              setSizeError(false);
+                              const newMax = sizeStock !== null ? sizeStock : (product.stock || 10);
+                              if (quantity > newMax) {
+                                setQuantity(Math.max(1, newMax));
+                              }
+                            }
+                          }}
+                          disabled={isOutOfStock}
+                          title={isOutOfStock ? t('product.outOfStock') : ''}
+                        >
+                          {sizeName}
+                        </button>
+                      );
+                    })}
                   </div>
                   {sizeError && <p className="error-msg">⚠ {t('product.sizeError')}</p>}
                 </div>
@@ -209,8 +227,21 @@ export default function Product() {
                     <span className="qty-value">{quantity}</span>
                     <button
                       className="qty-btn"
-                      onClick={() => setQuantity((q) => Math.min(10, q + 1))}
-                      disabled={quantity >= 10}
+                      onClick={() => {
+                        let maxAvailable = product.stock || 10;
+                        if (selectedSize && selectedSize.includes(':')) {
+                          maxAvailable = parseInt(selectedSize.split(':')[1]) || 0;
+                        }
+                        const finalMax = Math.min(10, maxAvailable);
+                        setQuantity((q) => Math.min(finalMax, q + 1));
+                      }}
+                      disabled={(() => {
+                        let maxAvailable = product.stock || 10;
+                        if (selectedSize && selectedSize.includes(':')) {
+                          maxAvailable = parseInt(selectedSize.split(':')[1]) || 0;
+                        }
+                        return quantity >= Math.min(10, maxAvailable);
+                      })()}
                     >+</button>
                   </div>
                 </div>

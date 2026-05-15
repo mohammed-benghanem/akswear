@@ -31,9 +31,9 @@ export default function Order() {
         <div className="container">
           <div className="order-empty">
             <div className="empty-icon">🛒</div>
-            <h2>Your cart is empty</h2>
-            <p>Please add some jerseys before placing an order.</p>
-            <Link to="/shop" className="btn btn-primary">Browse Jerseys</Link>
+            <h2>{t('checkout.emptyCart')}</h2>
+            <p>{t('checkout.emptyMsg')}</p>
+            <Link to="/shop" className="btn btn-primary">{t('checkout.browse')}</Link>
           </div>
         </div>
       </div>
@@ -42,12 +42,12 @@ export default function Order() {
 
   const validate = () => {
     const e = {};
-    if (!form.firstName.trim()) e.firstName = "First name is required";
-    if (!form.lastName.trim()) e.lastName = "Last name is required";
-    if (!form.city.trim()) e.city = "City is required";
-    if (!form.address.trim()) e.address = "Address is required";
-    if (!form.phone.trim()) e.phone = "Phone number is required";
-    else if (!/^\+?[\d\s\-()]{7,}$/.test(form.phone)) e.phone = "Enter a valid phone number";
+    if (!form.firstName.trim()) e.firstName = t('checkout.firstNameReq');
+    if (!form.lastName.trim()) e.lastName = t('checkout.lastNameReq');
+    if (!form.city.trim()) e.city = t('checkout.cityReq');
+    if (!form.address.trim()) e.address = t('checkout.addressReq');
+    if (!form.phone.trim()) e.phone = t('checkout.phoneReq');
+    else if (!/^\+?[\d\s\-()]{7,}$/.test(form.phone)) e.phone = t('checkout.phoneInvalid');
     return e;
   };
 
@@ -96,7 +96,7 @@ export default function Order() {
         {/* Header */}
         <div className="order-header">
           <div>
-            <div className="section-label">Almost Done</div>
+            <div className="section-label">{t('checkout.almostDone')}</div>
             <h1 className="section-title">{t('checkout.title')}</h1>
             <div className="gold-line" />
           </div>
@@ -109,11 +109,11 @@ export default function Order() {
 
         {/* Steps indicator */}
         <div className="order-steps">
-          <div className="step done"><div className="step-circle">✓</div><span>Cart</span></div>
+          <div className="step done"><div className="step-circle">✓</div><span>{t('checkout.stepCart')}</span></div>
           <div className="step-line done" />
-          <div className="step active"><div className="step-circle">2</div><span>Details</span></div>
+          <div className="step active"><div className="step-circle">2</div><span>{t('checkout.stepDetails')}</span></div>
           <div className="step-line" />
-          <div className="step"><div className="step-circle">3</div><span>Confirm</span></div>
+          <div className="step"><div className="step-circle">3</div><span>{t('checkout.stepConfirm')}</span></div>
         </div>
 
         <div className="order-layout">
@@ -122,7 +122,7 @@ export default function Order() {
             <div className="no-payment-banner">
               <span className="banner-icon">📞</span>
               <div>
-                <strong>{t('home.promo.orderPhone')}</strong>
+                <strong>{t('home.promo.verify')}</strong>
                 <p>{t('checkout.paymentNote')}</p>
               </div>
             </div>
@@ -132,11 +132,11 @@ export default function Order() {
 
               <div className="form-row">
                 <div className={`form-group${errors.firstName ? " has-error" : ""}`}>
-                  <label htmlFor="firstName">First Name <span className="required">*</span></label>
+                  <label htmlFor="firstName">{t('checkout.firstName')} <span className="required">*</span></label>
                   <input
                     id="firstName"
                     type="text"
-                    placeholder="e.g. John"
+                    placeholder={t('checkout.firstNameEg')}
                     value={form.firstName}
                     onChange={handleChange("firstName")}
                     autoComplete="given-name"
@@ -145,11 +145,11 @@ export default function Order() {
                 </div>
 
                 <div className={`form-group${errors.lastName ? " has-error" : ""}`}>
-                  <label htmlFor="lastName">Last Name <span className="required">*</span></label>
+                  <label htmlFor="lastName">{t('checkout.lastName')} <span className="required">*</span></label>
                   <input
                     id="lastName"
                     type="text"
-                    placeholder="e.g. Smith"
+                    placeholder={t('checkout.lastNameEg')}
                     value={form.lastName}
                     onChange={handleChange("lastName")}
                     autoComplete="family-name"
@@ -164,12 +164,26 @@ export default function Order() {
                   <input
                     id="city"
                     type="text"
-                    placeholder="e.g. London"
+                    placeholder={t('checkout.cityEg')}
                     value={form.city}
                     onChange={handleChange("city")}
                     autoComplete="address-level2"
                   />
                   {errors.city && <span className="field-error">{errors.city}</span>}
+                </div>
+
+                <div className={`form-group${errors.phone ? " has-error" : ""}`}>
+                  <label htmlFor="phone">{t('checkout.phone')} <span className="required">*</span></label>
+                  <input
+                    id="phone"
+                    type="tel"
+                    placeholder={t('checkout.phoneEg')}
+                    value={form.phone}
+                    onChange={handleChange("phone")}
+                    autoComplete="tel"
+                  />
+                  {errors.phone && <span className="field-error">{errors.phone}</span>}
+                  <span className="field-hint">{t('checkout.phoneHint')}</span>
                 </div>
               </div>
 
@@ -177,7 +191,7 @@ export default function Order() {
                 <label htmlFor="address">{t('checkout.address')} <span className="required">*</span></label>
                 <textarea
                   id="address"
-                  placeholder="Street, house number, postcode..."
+                  placeholder={t('checkout.addressEg')}
                   value={form.address}
                   onChange={handleChange("address")}
                   rows={3}
@@ -186,25 +200,11 @@ export default function Order() {
                 {errors.address && <span className="field-error">{errors.address}</span>}
               </div>
 
-              <div className={`form-group${errors.phone ? " has-error" : ""}`}>
-                <label htmlFor="phone">{t('checkout.phone')} <span className="required">*</span></label>
-                <input
-                  id="phone"
-                  type="tel"
-                  placeholder="e.g. +44 7700 900000"
-                  value={form.phone}
-                  onChange={handleChange("phone")}
-                  autoComplete="tel"
-                />
-                {errors.phone && <span className="field-error">{errors.phone}</span>}
-                <span className="field-hint">We'll call this number to confirm your order</span>
-              </div>
-
               <div className="form-group">
-                <label htmlFor="note">Additional Note <span className="optional">(Optional)</span></label>
+                <label htmlFor="note">{t('checkout.note')} <span className="optional">{t('checkout.noteOptional')}</span></label>
                 <textarea
                   id="note"
-                  placeholder="Any special instructions, delivery preferences..."
+                  placeholder={t('checkout.noteEg')}
                   value={form.note}
                   onChange={handleChange("note")}
                   rows={3}
@@ -217,7 +217,7 @@ export default function Order() {
                 disabled={submitting}
               >
                 {submitting ? (
-                  <><span className="spinner" /> Processing Order...</>
+                  <><span className="spinner" /> {t('checkout.processing')}</>
                 ) : (
                   <><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 11 12 14 22 4" /><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11" /></svg> {t('checkout.confirm')}</>
                 )}
@@ -227,7 +227,7 @@ export default function Order() {
 
           {/* ── Order Summary ── */}
           <aside className="order-summary glass-card">
-            <h2 className="summary-title">Your Order</h2>
+            <h2 className="summary-title">{t('checkout.yourOrder')}</h2>
 
             <div className="order-items-list">
               {items.map((item) => (
@@ -238,7 +238,7 @@ export default function Order() {
                   </div>
                   <div className="order-item-info">
                     <p className="order-item-name">{item.name}</p>
-                    <p className="order-item-size">Size: {item.size}</p>
+                    <p className="order-item-size">{t('checkout.size')}: {item.size}</p>
                   </div>
                   <span className="order-item-price">{(item.price * item.quantity).toFixed(0)} DH</span>
                 </div>
@@ -259,12 +259,6 @@ export default function Order() {
               </div>
             </div>
 
-            <div className="order-guarantee">
-              <div className="guarantee-row"><span>📞</span> Confirmed by phone call</div>
-              <div className="guarantee-row"><span>💵</span> Cash on delivery available</div>
-              <div className="guarantee-row"><span>📦</span> Tracked shipping</div>
-              <div className="guarantee-row"><span>↩️</span> Easy returns</div>
-            </div>
           </aside>
         </div>
       </div>

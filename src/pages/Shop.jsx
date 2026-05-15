@@ -62,7 +62,7 @@ export default function Shop() {
     if (filters.country)  list = list.filter((p) => p.country  === filters.country);
     if (filters.club)     list = list.filter((p) => p.club     === filters.club);
     if (filters.badge)    list = list.filter((p) => p.badge    === filters.badge);
-    if (filters.size)     list = list.filter((p) => p.sizes.includes(filters.size));
+    if (filters.size)     list = list.filter((p) => p.sizes.some(s => s === filters.size || s.startsWith(filters.size + ':')));
     list = list.filter((p) => p.price <= parseFloat(filters.priceMax));
 
     switch (filters.sort) {
@@ -185,7 +185,7 @@ export default function Shop() {
           <div className="filter-group">
             <h3 className="filter-label">Collection</h3>
             <div className="filter-pills wrap">
-              {["", "New", "Sale", "Best Seller", "Retro", "Limited"].map((b) => (
+              {["", "New", "Sale", "Best", "Retro", "Limited"].map((b) => (
                 <button
                   key={b}
                   className={`filter-pill${filters.badge === b ? " active" : ""}`}

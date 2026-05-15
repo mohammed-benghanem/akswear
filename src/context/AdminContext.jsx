@@ -2,12 +2,14 @@ import { createContext, useContext, useState, useEffect, useCallback } from "rea
 import { supabase } from "../lib/supabase";
 import {
   fetchProducts as sbFetchProducts,
+  fetchProductById as sbFetchProductById,
   createProduct as sbCreateProduct,
   updateProduct as sbUpdateProduct,
   deleteProduct as sbDeleteProduct,
 } from "../lib/productService";
 import {
   fetchOrders as sbFetchOrders,
+  fetchOrderById as sbFetchOrderById,
   updateOrderStatus as sbUpdateOrderStatus,
   createOrder as sbCreateOrder,
   updateOrderDetails as sbUpdateOrderDetails,
@@ -157,10 +159,104 @@ export const AdminProvider = ({ children }) => {
 
     const created = await sbCreateOrder(orderData);
     setOrders((prev) => [created, ...prev]);
+
+    // Decrement stock for ordered items
+    try {
+      if (order.items && order.items.length > 0) {
+        for (const item of order.items) {
+          try {
+            const pId = item.productId || item.id;
+            if (!pId) continue;
+            
+            const prod = await sbFetchProductById(pId);
+            if (prod) {
+              let newStock = Math.max(0, (prod.stock || 0) - item.quantity);
+              let newSizes = [...(prod.sizes || [])];
+              
+              if (newSizes.some(s => typeof s === "string" && s.includes(':'))) {
+                for (let i = 0; i < newSizes.length; i++) {
+                  const s = newSizes[i];
+                  if (typeof s === "string" && s.includes(':')) {
+                    const parts = s.split(':');
+                    if (parts[0] === item.size) {
+                      const currentQty = parseInt(parts[1]) || 0;
+                      const newQty = Math.max(0, currentQty - item.quantity);
+                      newSizes[i] = `${parts[0]}:${newQty}`;
+                      break;
+                    }
+                  }
+                }
+                // Recalculate total stock from sizes
+                newStock = newSizes.reduce((sum, s) => {
+                  const parts = s.split(':');
+                  return sum + (parts.length > 1 ? (parseInt(parts[1]) || 0) : 0);
+                }, 0);
+              }
+
+              const updatedProd = await sbUpdateProduct(prod.id, { stock: newStock, sizes: newSizes });
+              setProducts((prev) => prev.map((p) => (p.id === prod.id ? updatedProd : p)));
+            }
+          } catch (e) {
+            console.error("Failed to decrement stock for item:", item, e);
+          }
+        }
+      }
+    } catch (err) {
+      console.error("Error updating stock after order:", err);
+    }
+
     return created;
   }, []);
 
   const updateOrderStatus = useCallback(async (id, status) => {
+    // Check if we are cancelling the order to restore stock
+    try {
+      const order = await sbFetchOrderById(id);
+      if (order && order.status !== "cancelled" && status === "cancelled") {
+        if (order.items && order.items.length > 0) {
+          for (const item of order.items) {
+            try {
+              const pId = item.productId || item.id;
+              if (!pId) continue;
+              
+              const prod = await sbFetchProductById(pId);
+              if (prod) {
+                let newStock = (prod.stock || 0) + item.quantity;
+                let newSizes = [...(prod.sizes || [])];
+                
+                if (newSizes.some(s => typeof s === "string" && s.includes(':'))) {
+                  for (let i = 0; i < newSizes.length; i++) {
+                    const s = newSizes[i];
+                    if (typeof s === "string" && s.includes(':')) {
+                      const parts = s.split(':');
+                      if (parts[0] === item.size) {
+                        const currentQty = parseInt(parts[1]) || 0;
+                        const newQty = currentQty + item.quantity;
+                        newSizes[i] = `${parts[0]}:${newQty}`;
+                        break;
+                      }
+                    }
+                  }
+                  // Recalculate total stock from sizes
+                  newStock = newSizes.reduce((sum, s) => {
+                    const parts = s.split(':');
+                    return sum + (parts.length > 1 ? (parseInt(parts[1]) || 0) : 0);
+                  }, 0);
+                }
+
+                const updatedProd = await sbUpdateProduct(prod.id, { stock: newStock, sizes: newSizes });
+                setProducts((prev) => prev.map((p) => (p.id === prod.id ? updatedProd : p)));
+              }
+            } catch (e) {
+              console.error("Failed to increment stock for cancelled item:", item, e);
+            }
+          }
+        }
+      }
+    } catch (err) {
+      console.error("Error restoring stock on cancellation:", err);
+    }
+
     await sbUpdateOrderStatus(id, status);
     setOrders((prev) => prev.map((o) => (o.id === id ? { ...o, status } : o)));
   }, []);

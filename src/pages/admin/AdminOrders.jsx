@@ -14,18 +14,19 @@ const STATUS_COLORS = {
 const getProductSizes = (prod) => {
   if (!prod) return [];
   let raw = prod.sizes;
+  let sizes = [];
   if (!raw || (Array.isArray(raw) && raw.length === 0)) {
-    return ["XS", "S", "M", "L", "XL", "XXL"];
-  }
-  if (Array.isArray(raw)) {
-    return raw
+    sizes = ["XS", "S", "M", "L", "XL", "XXL"];
+  } else if (Array.isArray(raw)) {
+    sizes = raw
       .flatMap(s => typeof s === "string" ? s.split(",").map(x => x.trim()) : s)
       .filter(Boolean);
+  } else if (typeof raw === "string") {
+    sizes = raw.split(",").map(s => s.trim()).filter(Boolean);
+  } else {
+    sizes = ["XS", "S", "M", "L", "XL", "XXL"];
   }
-  if (typeof raw === "string") {
-    return raw.split(",").map(s => s.trim()).filter(Boolean);
-  }
-  return ["XS", "S", "M", "L", "XL", "XXL"];
+  return sizes.map(s => s.includes(':') ? s.split(':')[0] : s);
 };
 
 export default function AdminOrders() {

@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import ProductCard from "../components/ProductCard";
@@ -7,7 +8,7 @@ import "./Home.css";
 import nationalImg from "../assets/nationalteams.jpg";
 import retroImg from "../assets/retro.avif";
 import clubImg from "../assets/club.png";
-import { FaShippingFast, FaPhoneAlt, FaUndo, FaCheckCircle, FaBolt, FaShieldAlt } from "react-icons/fa";
+import { FaShippingFast, FaPhoneAlt, FaUndo, FaCheckCircle, FaBolt, FaShieldAlt, FaEye } from "react-icons/fa";
 
 const CLUB_LOGOS = [
   { name: "Real Madrid", src: "https://media.api-sports.io/football/teams/541.png" },
@@ -73,9 +74,18 @@ const CardSkeleton = () => (
 );
 
 export default function Home() {
+  const [promoIndex, setPromoIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setPromoIndex((prev) => (prev + 1) % 3);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, []);
+
   const { t } = useTranslation();
   const { products, loading } = useProducts();
-  const featured = products.filter((p) => p.stock !== 0 && (p.badge === "Best Seller" || p.badge === "Limited" || p.rating >= 4.8)).slice(0, 4);
+  const featured = products.filter((p) => p.stock !== 0 && (p.badge === "Best" || p.badge === "Limited" || p.rating >= 4.8)).slice(0, 4);
   const newArrivals = products.filter((p) => p.stock !== 0 && p.badge === "New").slice(0, 4);
 
   const translatedCollections = [
@@ -103,11 +113,15 @@ export default function Home() {
       {/* ── PROMO STRIP ── */}
       <div className="promo-strip">
         <div className="promo-strip-inner">
-          <div className="promo-strip-item"><FaShippingFast className="promo-icon" /> <span>{t('home.promo.fastDelivery')}</span></div>
-          <div className="promo-strip-dot" />
-          <div className="promo-strip-item"><FaPhoneAlt className="promo-icon" /> <span>{t('home.promo.orderPhone')}</span></div>
-          <div className="promo-strip-dot" />
-          <div className="promo-strip-item"><FaCheckCircle className="promo-icon" /> <span>{t('home.promo.authentic')}</span></div>
+          {promoIndex === 0 && (
+            <div className="promo-strip-item fade-enter"><FaShippingFast className="promo-icon" /> <span>{t('home.promo.fastDelivery')}</span></div>
+          )}
+          {promoIndex === 1 && (
+            <div className="promo-strip-item fade-enter"><FaEye className="promo-icon" /> <span>{t('home.promo.verify')}</span></div>
+          )}
+          {promoIndex === 2 && (
+            <div className="promo-strip-item fade-enter"><FaCheckCircle className="promo-icon" /> <span>{t('home.promo.authentic')}</span></div>
+          )}
         </div>
       </div>
 
@@ -182,6 +196,25 @@ export default function Home() {
         </div>
       </div>
 
+
+      {/* ── FAN FAVOURITES ── */}
+      <section className="section section-alt">
+        <div className="container">
+          <div className="section-header section-header-row">
+            <div>
+              <div className="section-label">{t('home.favorites.label')}</div>
+              <h2 className="section-title">{t('home.favorites.title1')} <span>{t('home.favorites.title2')}</span></h2>
+              <div className="gold-line" />
+            </div>
+            <Link to="/shop" className="btn btn-outline see-all-btn">{t('home.favorites.viewAll')}</Link>
+          </div>
+          <div className="products-grid">
+            {loading ? Array.from({ length: 4 }).map((_, i) => <CardSkeleton key={i} />) : featured.map((p) => <ProductCard key={p.id} product={p} />)}
+          </div>
+        </div>
+      </section>
+
+
       {/* ── COLLECTIONS ── */}
       <section className="section">
         <div className="container">
@@ -212,22 +245,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── FAN FAVOURITES ── */}
-      <section className="section section-alt">
-        <div className="container">
-          <div className="section-header section-header-row">
-            <div>
-              <div className="section-label">{t('home.favorites.label')}</div>
-              <h2 className="section-title">{t('home.favorites.title1')} <span>{t('home.favorites.title2')}</span></h2>
-              <div className="gold-line" />
-            </div>
-            <Link to="/shop" className="btn btn-outline see-all-btn">{t('home.favorites.viewAll')}</Link>
-          </div>
-          <div className="products-grid">
-            {loading ? Array.from({ length: 4 }).map((_, i) => <CardSkeleton key={i} />) : featured.map((p) => <ProductCard key={p.id} product={p} />)}
-          </div>
-        </div>
-      </section>
 
       {/* ── WHY AKS WEAR ── */}
       <section className="section why-section">

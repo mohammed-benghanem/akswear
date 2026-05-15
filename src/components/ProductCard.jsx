@@ -59,7 +59,7 @@ export default function ProductCard({ product }) {
         <div className="product-badges">
           {product.badge === "New" && <span className="badge badge-gold">New</span>}
           {product.badge === "Sale" && <span className="badge badge-accent">Sale</span>}
-          {product.badge === "Best Seller" && <span className="badge badge-gold">⭐ Best Seller</span>}
+          {product.badge === "Best" && <span className="badge badge-gold">⭐ Best</span>}
           {product.badge === "Limited" && <span className="badge badge-accent">Limited</span>}
           {product.badge === "Retro" && <span className="badge badge-dark">Retro</span>}
         </div>
