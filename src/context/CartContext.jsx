@@ -36,6 +36,35 @@ const cartReducer = (state, action) => {
             : i
         ),
       };
+    case "UPDATE_SIZE": {
+      const { id, oldSize, newSize } = action.payload;
+      if (oldSize === newSize) return state;
+
+      const existingNewSize = state.items.find(i => i.id === id && i.size === newSize);
+      const itemToUpdate = state.items.find(i => i.id === id && i.size === oldSize);
+
+      if (!itemToUpdate) return state;
+
+      if (existingNewSize) {
+        return {
+          ...state,
+          items: state.items
+            .map(i => i.id === id && i.size === newSize 
+                 ? { ...i, quantity: i.quantity + itemToUpdate.quantity } 
+                 : i)
+            .filter(i => !(i.id === id && i.size === oldSize))
+        };
+      }
+
+      return {
+        ...state,
+        items: state.items.map(i => 
+          i.id === id && i.size === oldSize 
+          ? { ...i, size: newSize } 
+          : i
+        )
+      };
+    }
     case "CLEAR_CART":
       return { ...state, items: [] };
     default:

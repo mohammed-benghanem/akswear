@@ -86,18 +86,19 @@ export default function Product() {
       return;
     }
     const cleanSize = selectedSize.includes(':') ? selectedSize.split(':')[0] : selectedSize;
-    dispatch({
-      type: "ADD_ITEM",
-      payload: {
-        id: product.id,
-        name: product.name,
-        price: product.price,
-        image: product.images[0],
-        size: cleanSize,
-        quantity,
-      },
+    
+    navigate("/order", {
+      state: {
+        buyNowItem: {
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          image: product.images[0],
+          size: cleanSize,
+          quantity,
+        }
+      }
     });
-    navigate("/cart");
   };
 
   return (

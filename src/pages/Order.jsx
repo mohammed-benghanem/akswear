@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useCart } from "../context/CartContext";
 import { useAdmin } from "../context/AdminContext";
@@ -7,9 +7,15 @@ import "./Order.css";
 
 export default function Order() {
   const { t } = useTranslation();
-  const { items, totalPrice, dispatch } = useCart();
+  const { items: cartItems, totalPrice: cartTotal, dispatch } = useCart();
   const { addOrder } = useAdmin();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const buyNowItem = location.state?.buyNowItem;
+  
+  const items = buyNowItem ? [buyNowItem] : cartItems;
+  const totalPrice = buyNowItem ? (buyNowItem.price * buyNowItem.quantity) : cartTotal;
 
   const [form, setForm] = useState({
     firstName: "",
@@ -86,7 +92,9 @@ export default function Order() {
       total,
     });
 
-    dispatch({ type: "CLEAR_CART" });
+    if (!buyNowItem) {
+      dispatch({ type: "CLEAR_CART" });
+    }
     navigate("/confirmation", { state: { name: `${form.firstName} ${form.lastName}`.trim(), phone: form.phone } });
   };
 

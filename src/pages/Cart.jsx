@@ -12,6 +12,10 @@ export default function Cart() {
     dispatch({ type: "UPDATE_QUANTITY", payload: { id, size, quantity: qty } });
   };
 
+  const updateSize = (id, oldSize, newSize) => {
+    dispatch({ type: "UPDATE_SIZE", payload: { id, oldSize, newSize } });
+  };
+
   const remove = (id, size) => {
     dispatch({ type: "REMOVE_ITEM", payload: { id, size } });
   };
@@ -69,7 +73,19 @@ export default function Cart() {
                   </Link>
                   <div className="cart-item-details">
                     <Link to={`/product/${item.id}`} className="cart-item-name">{item.name}</Link>
-                    <div className="cart-item-meta">{t('cart.size')} <span>{item.size}</span></div>
+                    <div className="cart-item-meta">
+                      <label htmlFor={`size-${item.id}-${item.size}`} style={{ marginRight: '6px' }}>{t('cart.size')}</label>
+                      <select 
+                        id={`size-${item.id}-${item.size}`}
+                        value={item.size} 
+                        onChange={(e) => updateSize(item.id, item.size, e.target.value)}
+                        className="cart-size-select"
+                      >
+                        {["XS", "S", "M", "L", "XL", "XXL"].map(s => (
+                          <option key={s} value={s}>{s}</option>
+                        ))}
+                      </select>
+                    </div>
                   </div>
                 </div>
 
