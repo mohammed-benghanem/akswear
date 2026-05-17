@@ -77,12 +77,7 @@ export default function ProductCard({ product }) {
           {outOfStock ? (
             <span className="out-of-stock-label">{t('product.outOfStock')}</span>
           ) : (
-            <button
-              className={`add-cart-btn${added ? " added" : ""}`}
-              onClick={handleAddToCart}
-            >
-              {added ? "✓" : t('product.addToCart')}
-            </button>
+            <button></button>
           )}
         </div>
       </div>
