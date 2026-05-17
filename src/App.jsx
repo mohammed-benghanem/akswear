@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { CartProvider } from "./context/CartContext";
 import { AdminProvider } from "./context/AdminContext";
 import Navbar from "./components/Navbar";
@@ -11,6 +11,7 @@ import Cart from "./pages/Cart";
 import Order from "./pages/Order";
 import Confirmation from "./pages/Confirmation";
 import ScrollToTop from "./components/ScrollToTop";
+import LoadingScreen from "./components/LoadingScreen";
 import { Helmet } from "react-helmet-async";
 import { useTranslation } from "react-i18next";
 
@@ -95,10 +96,13 @@ function StoreWrapper() {
 }
 
 export default function App() {
+  const [isLoading, setIsLoading] = useState(true);
+
   return (
     <AdminProvider>
       <CartProvider>
         <BrowserRouter>
+          {isLoading && <LoadingScreen onFinish={() => setIsLoading(false)} />}
           <StoreWrapper />
         </BrowserRouter>
       </CartProvider>
