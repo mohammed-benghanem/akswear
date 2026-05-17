@@ -1023,8 +1023,11 @@
   }
 
   .hero-bg-img {
-    opacity: 0.5;
     object-position: center top;
+  }
+
+  .hero-bg-img.active {
+    opacity: 0.5;
   }
 
   .hero-bg-gradient {
