@@ -4,10 +4,14 @@ import { useTranslation } from "react-i18next";
 import ProductCard from "../components/ProductCard";
 import { useProducts } from "../hooks/useProducts";
 import heroBg from "../assets/background.jpg";
+import bgClubs from "../assets/background-clubs.png";
+import bgRetro from "../assets/background-retro.png";
 import "./Home.css";
 import nationalImg from "../assets/nationalteams.jpg";
 import retroImg from "../assets/retro.avif";
 import clubImg from "../assets/club.png";
+import bannerImg from "../assets/banner.png";
+import bannerMbImg from "../assets/banner-mb.png";
 import { FaShippingFast, FaPhoneAlt, FaUndo, FaCheckCircle, FaBolt, FaShieldAlt, FaEye } from "react-icons/fa";
 
 const CLUB_LOGOS = [
@@ -75,13 +79,22 @@ const CardSkeleton = () => (
 
 export default function Home() {
   const [promoIndex, setPromoIndex] = useState(0);
+  const [heroIndex, setHeroIndex] = useState(0);
+
+  const heroImages = [heroBg, bgClubs, bgRetro];
 
   useEffect(() => {
-    const timer = setInterval(() => {
+    const promoTimer = setInterval(() => {
       setPromoIndex((prev) => (prev + 1) % 3);
     }, 3000);
-    return () => clearInterval(timer);
-  }, []);
+    const heroTimer = setInterval(() => {
+      setHeroIndex((prev) => (prev + 1) % heroImages.length);
+    }, 5000);
+    return () => {
+      clearInterval(promoTimer);
+      clearInterval(heroTimer);
+    };
+  }, [heroImages.length]);
 
   const { t } = useTranslation();
   const { products, loading } = useProducts();
@@ -128,11 +141,14 @@ export default function Home() {
       {/* ── HERO ── */}
       <section className="hero">
         <div className="hero-bg">
-          <img
-            src={heroBg}
-            alt="Premium football jerseys"
-            className="hero-bg-img"
-          />
+          {heroImages.map((img, idx) => (
+            <img
+              key={idx}
+              src={img}
+              alt="Premium football jerseys"
+              className={`hero-bg-img ${idx === heroIndex ? "active" : ""}`}
+            />
+          ))}
           <div className="hero-bg-gradient" />
         </div>
 
@@ -245,6 +261,22 @@ export default function Home() {
         </div>
       </section>
 
+
+      {/* ── WORLD CUP BANNER ── */}
+      <section className="world-cup-banner fade-in-up">
+        <picture className="wcb-picture">
+          <source media="(max-width: 768px)" srcSet={bannerMbImg} />
+          <img src={bannerImg} alt={t('home.worldCupBanner.title')} className="wcb-img" />
+        </picture>
+        <div className="wcb-overlay" />
+        <div className="wcb-content">
+          <h2 className="wcb-title">{t('home.worldCupBanner.title')}</h2>
+          <p className="wcb-desc">{t('home.worldCupBanner.desc')}</p>
+          <Link to="/shop?category=national" className="btn btn-gold wcb-btn">
+            {t('home.worldCupBanner.btn')}
+          </Link>
+        </div>
+      </section>
 
       {/* ── WHY AKS WEAR ── */}
       <section className="section why-section">

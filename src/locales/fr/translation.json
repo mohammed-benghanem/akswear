@@ -49,6 +49,11 @@
         "count": "Plus de 150 styles vintage"
       }
     },
+    "worldCupBanner": {
+      "title": "En route pour la Coupe du Monde 2026",
+      "desc": "Portez les couleurs des plus grandes nations du football alors que le monde se prépare pour le plus grand tournoi sur terre.",
+      "btn": "Acheter des Maillots"
+    },
     "favorites": {
       "label": "Sélections Triées sur le Volet",
       "title1": "Favoris des",
