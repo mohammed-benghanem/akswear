@@ -220,5 +220,26 @@
     "emailPlaceholder": "Enter your email address",
     "subscribe": "Subscribe",
     "rights": "All rights reserved."
+  },
+  "confirmation": {
+    "badge": "Order Received 🎉",
+    "title": "Thank You",
+    "message": "Your order has been successfully received. Our team will contact you soon by phone to confirm delivery details and arrange shipment.",
+
+    "steps": {
+      "placedTitle": "Order Placed",
+      "placedDesc": "Your order details have been recorded",
+
+      "phoneTitle": "Phone Confirmation",
+      "phoneDesc": "We'll call you to confirm within 24h",
+
+      "deliveryTitle": "Delivery",
+      "deliveryDesc": "Your jersey will be shipped promptly"
+    },
+
+    "help": "Need help?",
+    "email": "or email",
+
+    "footer": "Premium Football Jerseys. Thank you for trusting us!"
   }
 }

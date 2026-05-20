@@ -220,5 +220,26 @@
     "emailPlaceholder": "Entrez votre adresse email",
     "subscribe": "S'abonner",
     "rights": "Tous droits réservés."
+  },
+  "confirmation": {
+    "badge": "Commande reçue 🎉",
+    "title": "Merci",
+    "message": "Votre commande a été reçue avec succès. Notre équipe vous contactera bientôt par téléphone pour confirmer les détails de livraison et organiser l'expédition.",
+
+    "steps": {
+      "placedTitle": "Commande enregistrée",
+      "placedDesc": "Les détails de votre commande ont été enregistrés",
+
+      "phoneTitle": "Confirmation téléphonique",
+      "phoneDesc": "Nous vous appellerons sous 24h pour confirmer",
+
+      "deliveryTitle": "Livraison",
+      "deliveryDesc": "Votre maillot sera expédié rapidement"
+    },
+
+    "help": "Besoin d'aide ?",
+    "email": "ou email",
+
+    "footer": "Maillots de football premium. Merci pour votre confiance !"
   }
 }
