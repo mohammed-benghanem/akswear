@@ -24,7 +24,7 @@ const AdminContext = createContext(null);
 
 const DEFAULT_SETTINGS = {
   store_name: "AKS Wear",
-  contact_email: "akswear1@gmail.com",
+  contact_email: "Akswear.shop@gmail.com",
   whatsapp: "0675777859",
   free_shipping_threshold: 0,
   shipping_cost: 0,
@@ -59,7 +59,23 @@ export const AdminProvider = ({ children }) => {
       ]);
       setProducts(Array.isArray(prods) ? prods : []);
       setOrders(Array.isArray(ords) ? ords : []);
-      setSettings(sett || DEFAULT_SETTINGS);
+      if (sett) {
+        setSettings({
+          ...sett,
+          storeName: sett.store_name,
+          contactEmail: sett.contact_email,
+          freeShippingThreshold: sett.free_shipping_threshold,
+          shippingCost: sett.shipping_cost,
+        });
+      } else {
+        setSettings({
+          ...DEFAULT_SETTINGS,
+          storeName: DEFAULT_SETTINGS.store_name,
+          contactEmail: DEFAULT_SETTINGS.contact_email,
+          freeShippingThreshold: DEFAULT_SETTINGS.free_shipping_threshold,
+          shippingCost: DEFAULT_SETTINGS.shipping_cost,
+        });
+      }
     } catch (err) {
       console.error("Admin data load error:", err);
       // Split error to show in each section
@@ -294,8 +310,15 @@ export const AdminProvider = ({ children }) => {
     }
     const { newPassword, ...rest } = updates;
     if (Object.keys(rest).length > 0) {
-      await sbSaveSettings(rest);
-      setSettings((prev) => ({ ...prev, ...rest }));
+      const dbUpdates = {};
+      if (rest.storeName !== undefined) dbUpdates.store_name = rest.storeName;
+      if (rest.contactEmail !== undefined) dbUpdates.contact_email = rest.contactEmail;
+      if (rest.whatsapp !== undefined) dbUpdates.whatsapp = rest.whatsapp;
+      if (rest.freeShippingThreshold !== undefined) dbUpdates.free_shipping_threshold = rest.freeShippingThreshold;
+      if (rest.shippingCost !== undefined) dbUpdates.shipping_cost = rest.shippingCost;
+
+      await sbSaveSettings(dbUpdates);
+      setSettings((prev) => ({ ...prev, ...dbUpdates, ...rest }));
     }
   }, []);
 

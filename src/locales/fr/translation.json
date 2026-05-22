@@ -70,7 +70,7 @@
       },
       "authentic": {
         "title": "100% Authentique",
-        "desc": "Chaque maillot est sous licence officielle — jamais une réplique."
+        "desc": "Chaque maillot est original — jamais une réplique."
       },
       "phoneConfirm": {
         "title": "Confirmation Téléphonique",
@@ -118,9 +118,9 @@
     "tabDescription": "Description",
     "tabSizing": "Tailles",
     "tabDelivery": "Livraison",
-    "feat1": "Maillot sous licence officielle",
+    "feat1": "Maillot original",
     "feat2": "Tissu respirant premium",
-    "feat3": "Écusson du club brodé",
+    "feat3": "Écusson du club en relief",
     "feat4": "Lavable en machine à 30°C",
     "sizingNote": "Toutes les tailles sont basées sur les mesures de poitrine. En cas de doute, prenez la taille supérieure.",
     "sizingSize": "Taille",

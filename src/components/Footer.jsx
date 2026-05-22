@@ -72,7 +72,7 @@ export default function Footer() {
             <div className="contact-info">
               <div className="contact-row">
                 <span className="contact-icon">✉</span>
-                <a href="mailto:akswear1@gmail.com">akswear1@gmail.com</a>
+                <a href="mailto:Akswear.shop@gmail.com">Akswear.shop@gmail.com</a>
               </div>
               <div className="contact-row">
                 <span className="contact-icon">📞</span>

@@ -70,7 +70,7 @@
       },
       "authentic": {
         "title": "100% Authentic",
-        "desc": "Every jersey is officially licensed — never a replica."
+        "desc": "Every jersey is original — never a replica."
       },
       "phoneConfirm": {
         "title": "Phone Confirmation",
@@ -118,9 +118,9 @@
     "tabDescription": "Description",
     "tabSizing": "Sizing",
     "tabDelivery": "Delivery",
-    "feat1": "Official licensed jersey",
+    "feat1": "original jersy",
     "feat2": "Premium breathable fabric",
-    "feat3": "Embroidered club badge",
+    "feat3": "Raised club badge",
     "feat4": "Machine washable at 30\u00b0C",
     "sizingNote": "All sizes are based on chest measurements. When in doubt, size up.",
     "sizingSize": "Size",

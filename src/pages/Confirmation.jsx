@@ -112,10 +112,10 @@ export default function Confirmation() {
               {t("confirmation.email")}{" "}
 
               <a
-                href="mailto:akswear1@gmail.com"
+                href="mailto:Akswear.shop@gmail.com"
                 className="confirm-link"
               >
-                akswear1@gmail.com
+                Akswear.shop@gmail.com
               </a>
             </p>
           </div>

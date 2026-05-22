@@ -55,7 +55,7 @@ export default function AdminLogin() {
                 id="al-email"
                 type="email"
                 className="al-input"
-                placeholder="akswear1@gmail.com"
+                placeholder="Akswear.shop@gmail.com"
                 value={email}
                 onChange={(e) => { setEmail(e.target.value); if (loginError) setLoginError(""); }}
                 autoFocus
