@@ -62,6 +62,7 @@ export default function Product() {
       setTimeout(() => setSizeError(false), 2500);
       return;
     }
+    
     const cleanSize = selectedSize.includes(':') ? selectedSize.split(':')[0] : selectedSize;
     dispatch({
       type: "ADD_ITEM",
@@ -100,6 +101,12 @@ export default function Product() {
       }
     });
   };
+
+  fbq('track', 'ViewContent', {
+  content_name: product.name,
+  value: product.price,
+  currency: 'MAD'
+});
 
   return (
     <div className="product-page page-wrapper">
