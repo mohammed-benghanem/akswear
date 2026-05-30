@@ -46,7 +46,7 @@ export default function AdminDashboard() {
       {/* Header */}
       <div className="adb-header">
         <div>
-          <h1 className="adb-title">Dashboard</h1>
+          <h1 className="adb-title">Dashboard aks</h1>
           <p className="adb-subtitle">Welcome back! Here's what's happening in your store.</p>
         </div>
         <div className="adb-date">
