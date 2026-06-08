@@ -256,8 +256,11 @@ export default function Product() {
 
                 {/* Actions */}
                 <div className="product-actions">
+                  <button className="btn btn-primary buy-now-btn" onClick={handleBuyNow}>
+                    {t('product.buyNow')}
+                  </button>
                   <button
-                    className={`btn btn-primary add-to-cart-main${addedMsg ? " success" : ""}`}
+                    className={`btn btn-outline add-to-cart-main${addedMsg ? " success" : ""}`}
                     onClick={handleAddToCart}
                   >
                     {addedMsg
@@ -269,9 +272,6 @@ export default function Product() {
                         </>
                       )
                     }
-                  </button>
-                  <button className="btn btn-outline buy-now-btn" onClick={handleBuyNow}>
-                    {t('product.buyNow')}
                   </button>
                 </div>
               </>
