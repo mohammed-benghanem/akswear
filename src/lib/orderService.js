@@ -34,13 +34,11 @@ export const fetchOrderById = async (id) => {
 };
 
 export const createOrder = async (order) => {
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from("orders")
-    .insert([order])
-    .select()
-    .single();
+    .insert([order]);
   if (error) throw error;
-  return normalizeOrder(data);
+  return normalizeOrder(order);
 };
 
 export const updateOrderStatus = async (id, status) => {
