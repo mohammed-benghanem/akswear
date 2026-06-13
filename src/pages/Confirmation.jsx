@@ -11,19 +11,20 @@ export default function Confirmation() {
   const phone = state?.phone || "";
 
   useEffect(() => {
-    if (window.fbq) {
-      window.fbq("track", "Purchase", {
-        value: state?.total || 350,
-        currency: "MAD",
-      });
-    }
-  }, [state]);
+    if (!window.fbq) return;
+
+    const purchaseValue = Number(state?.total);
+
+    window.fbq("track", "Purchase", {
+      value: purchaseValue > 0 ? purchaseValue : 350,
+      currency: "MAD",
+    });
+  }, [state?.total]);
 
   return (
     <div className="confirmation-page page-wrapper">
       <div className="container">
         <div className="confirmation-card glass-card">
-
           <div className="confirm-icon-wrap">
             <div className="confirm-ring confirm-ring-1" />
             <div className="confirm-ring confirm-ring-2" />
@@ -46,18 +47,12 @@ export default function Confirmation() {
           </p>
 
           <div className="confirm-steps">
-
             <div className="confirm-step done">
               <div className="cs-icon">✓</div>
 
               <div>
-                <strong>
-                  {t("confirmation.steps.placedTitle")}
-                </strong>
-
-                <p>
-                  {t("confirmation.steps.placedDesc")}
-                </p>
+                <strong>{t("confirmation.steps.placedTitle")}</strong>
+                <p>{t("confirmation.steps.placedDesc")}</p>
               </div>
             </div>
 
@@ -67,13 +62,8 @@ export default function Confirmation() {
               <div className="cs-icon">📞</div>
 
               <div>
-                <strong>
-                  {t("confirmation.steps.phoneTitle")}
-                </strong>
-
-                <p>
-                  {t("confirmation.steps.phoneDesc")}
-                </p>
+                <strong>{t("confirmation.steps.phoneTitle")}</strong>
+                <p>{t("confirmation.steps.phoneDesc")}</p>
               </div>
             </div>
 
@@ -83,16 +73,10 @@ export default function Confirmation() {
               <div className="cs-icon">🚀</div>
 
               <div>
-                <strong>
-                  {t("confirmation.steps.deliveryTitle")}
-                </strong>
-
-                <p>
-                  {t("confirmation.steps.deliveryDesc")}
-                </p>
+                <strong>{t("confirmation.steps.deliveryTitle")}</strong>
+                <p>{t("confirmation.steps.deliveryDesc")}</p>
               </div>
             </div>
-
           </div>
 
           <div className="confirm-info-box">
@@ -121,7 +105,6 @@ export default function Confirmation() {
           </div>
 
           <div className="confirm-actions">
-
             <Link
               to="/shop"
               className="btn btn-primary confirm-btn"
@@ -135,9 +118,7 @@ export default function Confirmation() {
             >
               {t("navbar.home")}
             </Link>
-
           </div>
-
         </div>
 
         <p className="confirm-footer-note">
@@ -148,7 +129,6 @@ export default function Confirmation() {
           />{" "}
           — {t("confirmation.footer")}
         </p>
-
       </div>
     </div>
   );
